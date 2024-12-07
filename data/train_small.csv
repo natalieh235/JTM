@@ -1,0 +1,11 @@
+id,sequencePath,length,composer,ensemble,composition,movement,id_cat,composer_cat,ensemble_cat,composition_cat,movement_cat
+1727,train_data/1727.wav,7152954,Schubert,Piano Quintet,Piano Quintet in A major,2. Andante,0,9,8,13,61
+1742,train_data/1742.wav,14792412,Schubert,Viola Quintet,String Quintet in C major,2. Adagio,8,9,16,79,38
+1735,train_data/1735.wav,11438707,Schubert,Solo Piano,Piano Sonata in A major,4. Rondo. Allegretto,6,9,12,45,179
+1749,train_data/1749.wav,11141956,Schubert,Solo Piano,Piano Sonata in A minor,1. Moderato,9,9,12,46,32
+1733,train_data/1733.wav,8736183,Schubert,Solo Piano,Piano Sonata in A major,2. Andantino,4,9,12,45,70
+1739,train_data/1739.wav,7847184,Schubert,Piano Trio,Piano Trio in B-flat major,4. Rondo. Allegro vivace,7,9,9,54,181
+1729,train_data/1729.wav,7111994,Schubert,Piano Quintet,Piano Quintet in A major,4. Andantino - Allegretto,2,9,8,13,166
+1730,train_data/1730.wav,5896569,Schubert,Piano Quintet,Piano Quintet in A major,5. Allegro giusto,3,9,8,13,190
+1734,train_data/1734.wav,5209862,Schubert,Solo Piano,Piano Sonata in A major,3. Scherzo. Allegro vivace,5,9,12,45,150
+1728,train_data/1728.wav,4018260,Schubert,Piano Quintet,Piano Quintet in A major,3. Scherzo: Presto,1,9,8,13,156
