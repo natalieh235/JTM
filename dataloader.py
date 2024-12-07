@@ -55,6 +55,8 @@ class AudioBatchData(Dataset):
 
         self.sequencesData = metadata.sort_values(by=cols_to_sort_by) # big concatenated csv
 
+        print(self.sequencesData)
+
         if self.transcript_window is not None:
             for i in self.sequencesData['id_cat'].unique()[1:]:
                 self.sequencesData.loc[self.sequencesData['id_cat'] == i, 'start_time'] += \
@@ -76,6 +78,7 @@ class AudioBatchData(Dataset):
         else:
             self.chunksDir = Path(outputPath) / labelsBy
 
+        print('chunksDir', self.chunksDir)
         if not os.path.exists(self.chunksDir):
             os.makedirs(self.chunksDir)
 
@@ -119,11 +122,17 @@ class AudioBatchData(Dataset):
         packIds = []
         packageSize = 0
         packageIdx = 0
+
+        total_len = 0
+        # for trackId in tqdm.tqdm(self.sequencesData.id.unique()):
         for trackId in tqdm.tqdm(self.sequencesData.id.unique()):
+            # downsample
             sequence, samplingRate = librosa.load(self.rawAudioPath / (str(trackId) + '.wav'), sr=16000)
             sequence = torch.tensor(sequence).float()
             packIds.append(trackId)
             pack.append(sequence)
+
+            total_len += len(sequence)
             packageSize += len(sequence) * 4
             if packageSize >= self.CHUNK_SIZE:
                 print(f"Saved pack {packageIdx}")
@@ -136,6 +145,7 @@ class AudioBatchData(Dataset):
                 packageSize = 0
                 packageIdx += 1
         print(f"Saved pack {packageIdx}")
+        print('total len', total_len)
         with open(self.chunksDir / f'chunk_{packageIdx}.pickle', 'wb') as handle:
             pickle.dump(torch.cat(pack, dim=0), handle, protocol=pickle.HIGHEST_PROTOCOL)
         with open(self.chunksDir / f'ids_{packageIdx}.pickle', 'wb') as handle:

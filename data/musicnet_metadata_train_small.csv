@@ -1,0 +1,11 @@
+id,sequencePath,length,composer,ensemble,composition,movement,id_cat,composer_cat,ensemble_cat,composition_cat,movement_cat
+2302,train_data/2302.wav,1733277,Bach,Solo Piano,"WTK I, No. 5: Prelude and Fugue in D major",2. Fugue,165,0,12,113,76
+2659,train_data/2659.wav,1733277,Bach,Solo Violin,Violin Partita No 1 in B minor,6. Double,327,0,13,83,193
+2222,train_data/2222.wav,3232497,Bach,Solo Cello,Cello Suite 3,6. Gigue,131,0,10,4,194
+1789,train_data/1789.wav,7381245,Mozart,String Quartet,String Quartet No 19 in C major,2. Andante cantabile,31,7,14,70,62
+1788,train_data/1788.wav,8211069,Mozart,String Quartet,String Quartet No 19 in C major,1. Adagio - Allegro,30,7,14,70,1
+2476,train_data/2476.wav,7590975,Beethoven,Solo Piano,Piano Sonata No 3 in C major,2. Adagio,245,1,12,37,38
+2220,train_data/2220.wav,4832027,Bach,Solo Cello,Cello Suite 3,4. Sarabande,129,0,10,4,187
+2528,train_data/2528.wav,7419612,Beethoven,Solo Piano,Piano Sonata No 5 in C minor,2. Adagio molto,275,1,12,40,49
+2542,train_data/2542.wav,10415961,Beethoven,Solo Piano,Piano Sonata No 28 in A major,3. Langsam und sehnsuchtsvoll,284,1,12,35,125
+2342,train_data/2342.wav,3076598,Beethoven,Accompanied Violin,Violin Sonata No 8 in G major,3. Allegro vivace,185,1,2,92,115

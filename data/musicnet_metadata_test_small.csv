@@ -1,0 +1,6 @@
+id,sequencePath,length,composer,ensemble,composition,movement,id_cat,composer_cat,ensemble_cat,composition_cat,movement_cat
+2298,test_data/2298.wav,2456347,Bach,Solo Cello,Cello Suite 4,6. Gigue,163,0,10,5,194
+2628,test_data/2628.wav,1994920,Beethoven,Accompanied Violin,Violin Sonata No 10 in G major,3. Scherzo: Allegro - Trio,323,1,2,87,153
+2382,test_data/2382.wav,1887922,Beethoven,String Quartet,String Quartet No 13 in B-flat major,2. Presto,206,1,14,64,92
+2303,test_data/2303.wav,1482502,Bach,Solo Piano,"WTK I, No. 5: Prelude and Fugue in D major",1. Prelude,166,0,12,113,34
+2556,test_data/2556.wav,2423328,Beethoven,Solo Piano,Piano Sonata No 30 in E major,2. Prestissimo,287,1,12,38,91

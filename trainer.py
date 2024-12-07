@@ -42,7 +42,11 @@ def trainStep(dataLoader,
             batchData = batchData.cuda(non_blocking=True)
             label = label.cuda(non_blocking=True)
         c_feature, encoded_data, label = cpcModel(batchData, label)
-        allLosses, allAcc, preds = cpcCriterion(c_feature, encoded_data, label)
+
+        if cpcModel.supervised:
+            allLosses, allAcc, preds = cpcCriterion(c_feature, encoded_data, label)
+        else:
+            allLosses, allAcc = cpcCriterion(c_feature, encoded_data, label)
         totLoss = allLosses.sum()
 
         totLoss.backward()
@@ -306,5 +310,6 @@ def run(trainDataset,
                          scheduler, pathCheckpoint, logs, useGPU, log2Board, experiment)
             experiment.end()
     else:
+        print('===== starting training loop =======')
         trainingLoop(trainDataset, valDataset, batchSize, samplingMode, cpcModel, cpcCriterion, nEpoch, optimizer,
                      scheduler, pathCheckpoint, logs, useGPU, log2Board, experiment)

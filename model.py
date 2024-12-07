@@ -365,7 +365,7 @@ class CPCUnsupersivedCriterion(BaseCriterion):
         return outputs, labelLoss
 
     def forward(self, cFeature, encodedData, label):
-
+        # print('forward')
         if self.mode == "reverse":
             encodedData = torch.flip(encodedData, [1])
             cFeature = torch.flip(cFeature, [1])

@@ -21,6 +21,7 @@ from sklearn.model_selection import train_test_split
 
 def getCriterion(config, downsampling, nClasses=None):
     if not config.supervised:
+        print('getting not supervised criterion')
         cpcCriterion = CPCUnsupersivedCriterion(nPredicts=config.nPredicts,
                                                 dimOutputAR=config.hiddenGar,
                                                 dimOutputEncoder=config.hiddenEncoder,
@@ -77,7 +78,7 @@ def parseArgs(argv):
     group_supervised.add_argument('--task', type=str, default='transcription',
                                    help='Type of the donwstream task if in supeprvised mode. '
                                         'Currently supported tasks are classification and transcription.')
-    group_supervised.add_argument('--transcriptionWindow', type=int, default=160,
+    group_supervised.add_argument('--transcriptionWindow', type=int,
                                    help='Size of the transcription window (in ms) in the transcription downstream task.')
 
     groupSave = parser.add_argument_group('Save')
@@ -87,7 +88,7 @@ def parseArgs(argv):
     groupSave.add_argument('--saveStep', type=int, default=1,
                            help="Frequency (in epochs) at which a checkpoint "
                                 "should be saved")
-    groupSave.add_argument('--log2Board', type=int, default=1,
+    groupSave.add_argument('--log2Board', type=int, default=0,
                            help="Defines what (if any) data to log to Comet.ml:\n"
                                 "\t0 : do not log to Comet\n\t1 : log losses and accuracy\n\t>1 : log histograms of "
                                 "weights and gradients.\nFor log2Board > 0 you will need to provide Comet.ml "
@@ -154,19 +155,20 @@ def main(config):
     metadata_dir = f'data/musicnet_metadata_train_transcription_{config.labelsBy}_trainsplit.csv' if \
                            config.transcriptionWindow is not None \
                            else f'data/musicnet_metadata_train_{config.labelsBy}_trainsplit.csv'
-
+    print('metadata_dir', metadata_dir)
+    # create the split
     if not os.path.exists(metadata_dir):
-        # if config.transcriptionWindow is not None:
-        #    musicNetMetadataTrain = pd.read_csv('data/musicnet_metadata_transcript_train_alldata.csv')
-        # else:
-        musicNetMetadataTrain = pd.read_csv('data/musicnet_metadata_train.csv', index_col = 'id')
+        # musicNetMetadataTrain = pd.read_csv('data/musicnet_metadata_train.csv', index_col = 'id')
+        musicNetMetadataTrain = pd.read_csv(metadataPathTrain)
+                                            # , index_col = 'id', drop=False)
+   
         try:
             if config.transcriptionWindow is not None:
                metadataTrain, metadataVal = train_test_split(musicNetMetadataTrain, test_size=0.1)
                                                           # stratify=musicNetMetadataTrain[config.labelsBy])
             else:
-               metadataTrain, metadataVal = train_test_split(musicNetMetadataTrain, test_size=0.1,
-                                                             stratify=musicNetMetadataTrain[config.labelsBy])
+                metadataTrain, metadataVal = train_test_split(musicNetMetadataTrain, test_size=0.1)
+                                                            #  stratify=musicNetMetadataTrain[config.labelsBy])
             print(metadataTrain.shape, metadataVal.shape)
 
         except ValueError:
@@ -177,6 +179,8 @@ def main(config):
                     musicNetMetadataTrain = musicNetMetadataTrain.append(subDF)
             metadataTrain, metadataVal = train_test_split(musicNetMetadataTrain, test_size=0.1,
                                                           stratify=musicNetMetadataTrain[config.labelsBy])
+        
+        
         if config.transcriptionWindow is not None:
            musicNetMetadataTranscript = pd.read_csv('data/musicnet_metadata_transcript_train_alldata.csv')
            metadataTrain = musicNetMetadataTranscript[musicNetMetadataTranscript['id'].isin(metadataTrain.index)]
@@ -191,8 +195,10 @@ def main(config):
            metadataTrain = pd.read_csv(f'data/musicnet_metadata_train_transcription_{config.labelsBy}_trainsplit.csv')
            metadataVal = pd.read_csv(f'data/musicnet_metadata_train_transcription_{config.labelsBy}_valsplit.csv')
         else:
-           metadataTrain = pd.read_csv(f'data/musicnet_metadata_train_{config.labelsBy}_trainsplit.csv', index = 'id')
-           metadataVal = pd.read_csv(f'data/musicnet_metadata_train_{config.labelsBy}_valsplit.csv', index = 'id')
+           metadataTrain = pd.read_csv(f'data/musicnet_metadata_train_{config.labelsBy}_trainsplit.csv')
+                                    #    , index_col = 'id', drop=False)
+           metadataVal = pd.read_csv(f'data/musicnet_metadata_train_{config.labelsBy}_valsplit.csv')
+        #    , index_col = 'id', drop=False)
 
     print("Loading the training dataset")
     trainDataset = AudioBatchData(rawAudioPath=rawAudioPath,
@@ -205,7 +211,7 @@ def main(config):
                                   useGPU=useGPU,
                                   transcript_window=config.transcriptionWindow)
     print("Training dataset loaded")
-    print("")
+    print("dataset len: ", len(trainDataset))
 
     print("Loading the validation dataset")
     valDataset = AudioBatchData(rawAudioPath=rawAudioPath,
@@ -218,7 +224,7 @@ def main(config):
                                 useGPU=False,
                                 transcript_window=config.transcriptionWindow)
     print("Validation dataset loaded")
-    print("")
+    print("val len: ", len(valDataset))
 
     if config.load is not None:
         cpcModel, config.hiddenGar, config.hiddenEncoder = loadModel(config.load, config)
