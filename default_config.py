@@ -2,11 +2,11 @@ import argparse
 
 # rawAudioPath = 'data/musicnet_lousy/train_data'
 # rawLabelsPath= 'data/musicnet_lousy/train_labels'
-metadataPathTrain = 'data/musicnet_metadata_train_small.csv'
-metadataPathTest = 'data/musicnet_metadata_test_small.csv'
+metadataPathTrain = 'data/train_small.csv'
+metadataPathTest = 'data/test_small.csv'
 
-rawAudioPath = '../musicnet/musicnet/train_data'
-rawLabelsPath= '../musicnet/musicnet/train_labels'
+rawAudioPath = '../drive/MyDrive/train_small'
+rawLabelsPath= '../drive/MyDrive/train_small_labels'
 # metadataPathTrain = '../musicnet/_metadata_small.csv'
 # metadataPathTest = '../musicnet/_metadata_small_test.csv'
 

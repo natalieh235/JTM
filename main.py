@@ -82,7 +82,7 @@ def parseArgs(argv):
                                    help='Size of the transcription window (in ms) in the transcription downstream task.')
 
     groupSave = parser.add_argument_group('Save')
-    groupSave.add_argument('--pathCheckpoint', type=str, default=None,
+    groupSave.add_argument('--pathCheckpoint', type=str, default="./checkpoints",
                            help="Path of the output directory.")
     groupSave.add_argument('--loggingStep', type=int, default=1000)
     groupSave.add_argument('--saveStep', type=int, default=1,
