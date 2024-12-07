@@ -1,2 +1,2 @@
 ,id,sequencePath,length,composer,ensemble,composition,movement,id_cat,composer_cat,ensemble_cat,composition_cat,movement_cat
-7,2528,train_data/2528.wav,7419612,Beethoven,Solo Piano,Piano Sonata No 5 in C minor,2. Adagio molto,275,1,12,40,49
+3,1749,train_data/1749.wav,11141956,Schubert,Solo Piano,Piano Sonata in A minor,1. Moderato,9,9,12,46,32

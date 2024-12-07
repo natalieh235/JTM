@@ -73,14 +73,14 @@ def trainStep(dataLoader,
         logs["locAcc_train"] += (allAcc.mean(dim=0)).cpu().numpy()
         iterCtr += 1
 
-        print('SHAPE OF LOSSES', logs["locLoss_train"].shape)
+        # print('SHAPE OF LOSSES', logs["locLoss_train"].shape)
 
         if log2Board:
             for t in range(len(logs["locLoss_train"])):
                 # the average across all batches is logged
-                experiment.log_metric(f"Losses/batch/locLoss_train", logs["locLoss_train"][t] / iterCtr,
+                experiment.log_metric(f"Losses/batch/locLoss_train_{t}", logs["locLoss_train"][t] / iterCtr,
                                       step=totalSteps + iterCtr)
-                experiment.log_metric(f"Accuracy/batch/locAcc_train", logs["locAcc_train"][t] / iterCtr,
+                experiment.log_metric(f"Accuracy/batch/locAcc_train_{t}", logs["locAcc_train"][t] / iterCtr,
                                       step=totalSteps + iterCtr)
 
         if (step + 1) % loggingStep == 0:
@@ -249,13 +249,13 @@ def trainingLoop(trainDataset,
 
             batches_itr = locLogsTrain['iter']
             if log2Board:
-                # for t in range(len(locLogsVal["locLoss_val"])):
-                experiment.log_metric(f"Losses/epoch/locLoss_train", locLogsTrain["locLoss_train"][t] / batches_itr,
-                                        epoch=epoch)
-                experiment.log_metric(f"Accuracy/epoch/locAcc_train", locLogsTrain["locAcc_train"][t] / batches_itr,
-                                        epoch=epoch)
-                experiment.log_metric(f"Losses/epoch/locLoss_val", locLogsVal["locLoss_val"][t] / batches_itr, epoch=epoch)
-                experiment.log_metric(f"Accuracy/epoch/locAcc_val", locLogsVal["locAcc_val"][t] / batches_itr, epoch=epoch)
+                for t in range(len(locLogsVal["locLoss_val"])):
+                    experiment.log_metric(f"Losses/epoch/locLoss_train_{t}", locLogsTrain["locLoss_train"][t] / batches_itr,
+                                            epoch=epoch)
+                    experiment.log_metric(f"Accuracy/epoch/locAcc_train_{t}", locLogsTrain["locAcc_train"][t] / batches_itr,
+                                            epoch=epoch)
+                    experiment.log_metric(f"Losses/epoch/locLoss_val_{t}", locLogsVal["locLoss_val"][t] / batches_itr, epoch=epoch)
+                    experiment.log_metric(f"Accuracy/epoch/locAcc_val_{t}", locLogsVal["locAcc_val"][t] / batches_itr, epoch=epoch)
 
                 if log2Board > 1:
                     experiment.log_confusion_matrix(

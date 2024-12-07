@@ -7,6 +7,8 @@ metadataPathTest = 'data/test_small.csv'
 
 rawAudioPath = '../drive/MyDrive/train_small'
 rawLabelsPath= '../drive/MyDrive/train_small_labels'
+# rawAudioPath = '../musicnet/musicnet/train_data'
+# rawLabelsPath= '../musicnet/musicnet/train_labels'
 # metadataPathTrain = '../musicnet/_metadata_small.csv'
 # metadataPathTest = '../musicnet/_metadata_small_test.csv'
 

@@ -297,7 +297,7 @@ def main(config):
 
     experiment = None
     if config.log2Board:
-        comet_ml.init(project_name="jtm", workspace="tiagocuervo")
+        comet_ml.init(project_name="jtm", workspace="natalieh235")
         if not os.path.exists('.comet.config'):
             cometKey = input("Please enter your Comet.ml API key: ")
             experiment = comet_ml.Experiment(cometKey)
