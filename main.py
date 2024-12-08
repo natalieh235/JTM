@@ -200,7 +200,8 @@ def main(config):
            metadataVal = pd.read_csv(f'data/musicnet_metadata_train_{config.labelsBy}_valsplit.csv')
         #    , index_col = 'id', drop=False)
 
-    chunk_output = 'data/musicnet_chunk/'
+    # chunk_output = 'data/musicnet_chunk/'
+    chunk_output = "../musicnet_big/"
     print("Loading the training dataset")
     trainDataset = AudioBatchData(rawAudioPath=rawAudioPath,
                                   metadata=metadataTrain,
