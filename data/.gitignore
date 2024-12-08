@@ -2,3 +2,4 @@
 /musicnet_chunk/*
 musicnet_metadata_train_ensemble_trainsplit.csv
 musicnet_metadata_train_ensemble_valsplit.csv
+/new_chunks/*

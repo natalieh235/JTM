@@ -106,6 +106,7 @@ class AudioBatchData(Dataset):
         if len(packOfChunks) > 0:
             self.packs.append(packOfChunks)
 
+        print('packs', self.packs)
         self.currentPack = -1
         self.nextPack = 0
         self.sequenceIdx = 0
@@ -165,6 +166,9 @@ class AudioBatchData(Dataset):
                 with open(self.chunksDir / (
                         'ids_' + self.packs[0][0].split('_', maxsplit=1)[-1]), 'rb') as handle:
                     chunkIds = pickle.load(handle)
+                
+                print('ids', chunkIds, self.chunksDir / (
+                        'ids_' + self.packs[0][0].split('_', maxsplit=1)[-1]))
                 self.previousCategory = self.sequencesData[self.sequencesData['id'] == chunkIds[0]][self.category].iloc[0]
             for packagePath in self.packs[self.currentPack]:
                 with open(self.chunksDir / ('ids_' + packagePath.split('_', maxsplit=1)[-1]), 'rb') as handle:

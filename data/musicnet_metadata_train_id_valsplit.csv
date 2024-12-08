@@ -1,9 +1,9 @@
 ,id,sequencePath,length,composer,ensemble,composition,movement,id_cat,composer_cat,ensemble_cat,composition_cat,movement_cat
-57,2388,train_data/2388.wav,7578854,Beethoven,Solo Piano,Piano Sonata No 17 in D minor,1. Largo - Allegro,209,1,12,22,28
-62,2433,train_data/2433.wav,7383667,Beethoven,String Quartet,String Quartet No 16 in F major,"3. Lento assai, cantante e tranquillo",232,1,14,68,126
-15,1777,train_data/1777.wav,10071981,Schubert,Solo Piano,Piano Sonata in D major,3. Scherzo. Allegro vivace,29,9,12,48,150
-76,2521,train_data/2521.wav,12031485,Beethoven,Accompanied Cello,Cello Sonata No. 3 in A major,1. Allegro ma non tanto,271,1,0,2,11
-13,1775,train_data/1775.wav,9251527,Schubert,Solo Piano,Piano Sonata in D major,1. Allegro vivace,27,9,12,48,19
-40,2169,train_data/2169.wav,8308193,Faure,Piano Quartet,Piano Quartet No 2 in G minor,4. Allegro molto,101,5,7,12,164
-42,2179,train_data/2179.wav,8080823,Ravel,String Quartet,String Quartet in F,3. Tres lent,104,8,14,78,158
-68,2471,train_data/2471.wav,7256608,Beethoven,Solo Piano,Piano Sonata No 3 in C major,2. Adagio,242,1,12,37,38
+70,2490,train_data/2490.wav,8306939,Beethoven,Solo Piano,Piano Sonata No 4 in E-flat major,"2. Largo, con gran espressione",255,1,12,39,85
+12,1771,train_data/1771.wav,10357865,Schubert,Solo Piano,Piano Sonata in D-flat major,1. Allegro moderato,24,9,12,49,14
+33,2151,train_data/2151.wav,8533473,Brahms,Piano Quartet,Piano Quartet No 1 in G minor,4. Rondo alla Zingarese: Presto,89,2,7,11,178
+20,1811,train_data/1811.wav,7829630,Mozart,Clarinet Quintet,Clarinet Quintet in A major,2. Larghetto,38,7,3,6,79
+69,2482,train_data/2482.wav,9088523,Beethoven,String Quartet,String Quartet No 5 in A major,3. Andante cantabile (Theme with variations,250,1,14,73,118
+16,1788,train_data/1788.wav,8211069,Mozart,String Quartet,String Quartet No 19 in C major,1. Adagio - Allegro,30,7,14,70,1
+24,1872,train_data/1872.wav,8151458,Mozart,Piano Trio,Piano Trio No 3 in B-flat major,2. Larghetto,50,7,9,50,79
+18,1792,train_data/1792.wav,7564644,Mozart,String Quartet,String Quartet No 19 in C major,1. Adagio - Allegro,34,7,14,70,1
