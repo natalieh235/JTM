@@ -39,7 +39,6 @@ id,sequencePath,length,composer,ensemble,composition,movement,id_cat,composer_ca
 2158,train_data/2158.wav,7714273,Brahms,Horn Piano Trio,Horn Trio in E-flat major,1. Andante,94,2,5,8,22
 2159,train_data/2159.wav,7464334,Brahms,Horn Piano Trio,Horn Trio in E-flat major,2. Scherzo (Allegro),95,2,5,8,95
 2166,train_data/2166.wav,10228716,Faure,Piano Quartet,Piano Quartet No 2 in G minor,1. Allegro molto moderato,98,5,7,12,17
-2169,train_data/2169.wav,8308193,Faure,Piano Quartet,Piano Quartet No 2 in G minor,4. Allegro molto,101,5,7,12,164
 2177,train_data/2177.wav,7853454,Ravel,String Quartet,String Quartet in F,1. Allegro moderato - tres doux,102,8,14,78,15
 2179,train_data/2179.wav,8080823,Ravel,String Quartet,String Quartet in F,3. Tres lent,104,8,14,78,158
 2313,train_data/2313.wav,9501885,Beethoven,String Quartet,String Quartet No 15 in A minor,1. Allegro,172,1,14,66,6
