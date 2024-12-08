@@ -249,6 +249,7 @@ def trainingLoop(trainDataset,
 
             batches_itr = locLogsTrain['iter']
             if log2Board:
+                print('logging for epoch', epoch)
                 for t in range(len(locLogsVal["locLoss_val"])):
                     experiment.log_metric(f"Losses/epoch/locLoss_train_{t}", locLogsTrain["locLoss_train"][t] / batches_itr,
                                             epoch=epoch)
