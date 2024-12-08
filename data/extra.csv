@@ -1,0 +1,20 @@
+2530,train_data/2530.wav,8992810,Beethoven,Solo Piano,Piano Sonata No 20 in C minor,1. Maestoso - Allegro con brio ed appassionato,277,1,12,27,30
+2531,train_data/2531.wav,15873672,Beethoven,Solo Piano,Piano Sonata No 20 in C minor,2. Arietta: Adagio,278,1,12,27,71
+2532,train_data/2532.wav,8774636,Beethoven,Solo Piano,Piano Sonata No 20 in C minor,1. Maestoso - Allegro con brio ed appassionato,279,1,12,27,30
+2533,train_data/2533.wav,17087426,Beethoven,Solo Piano,Piano Sonata No 20 in C minor,2. Arietta: Adagio,280,1,12,27,71
+2542,train_data/2542.wav,10415961,Beethoven,Solo Piano,Piano Sonata No 28 in A major,3. Langsam und sehnsuchtsvoll,284,1,12,35,125
+2557,train_data/2557.wav,12196049,Beethoven,Solo Piano,Piano Sonata No 30 in E major,"3. Gesangvoll, mit innigster Empfindung",288,1,12,38,123
+2564,train_data/2564.wav,8862825,Beethoven,Solo Piano,Piano Sonata No 11 in B-flat major,2. Adagio con molto espressione,291,1,12,16,45
+2568,train_data/2568.wav,7649489,Beethoven,Solo Piano,Piano Sonata No 27 in E minor,2. Nicht zu geschwind und sehr singbar vorgetragen,294,1,12,34,90
+2570,train_data/2570.wav,8112170,Beethoven,Accompanied Violin,Violin Sonata No 7 in C minor,1. Allegro con brio,295,1,2,91,9
+2571,train_data/2571.wav,8640471,Beethoven,Accompanied Violin,Violin Sonata No 7 in C minor,2. Adagio cantibile,296,1,2,91,43
+2588,train_data/2588.wav,8365872,Beethoven,Solo Piano,Piano Sonata No 12 in A-flat major,1. Andante con variazioni,304,1,12,17,24
+2593,train_data/2593.wav,8206211,Beethoven,Solo Piano,Piano Sonata No 18 in E-flat major,1. Allegro,307,1,12,23,6
+2607,train_data/2607.wav,10783765,Beethoven,Solo Piano,Piano Sonata No 16 in G major,2. Adagio grazioso,312,1,12,21,47
+2611,train_data/2611.wav,9012036,Beethoven,Solo Piano,Piano Sonata No 7 in D major,2. Largo e mesto,314,1,12,42,84
+2614,train_data/2614.wav,10162678,Beethoven,Solo Piano,Piano Sonata No 7 in D major,2. Largo e mesto,315,1,12,42,84
+2621,train_data/2621.wav,10378763,Beethoven,String Quartet,String Quartet No 7 in F major,1. Allegro,319,1,14,75,6
+2622,train_data/2622.wav,8115932,Beethoven,String Quartet,String Quartet No 7 in F major,2. Allegretto vivace e sempre scherzando,320,1,14,75,54
+2626,train_data/2626.wav,9503138,Beethoven,Accompanied Violin,Violin Sonata No 10 in G major,1. Allegro moderato,321,1,2,87,14
+2629,train_data/2629.wav,8287295,Beethoven,Accompanied Violin,Violin Sonata No 10 in G major,4. Poco allegretto,324,1,2,87,175
+2678,train_data/2678.wav,7557956,Beethoven,Solo Piano,Piano Sonata No 10 in G major,1. Allegro,329,1,12,15,6

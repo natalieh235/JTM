@@ -171,12 +171,13 @@ def main(config):
         metadataTrain = pd.read_csv(f'data/musicnet_metadata_train_{config.labelsBy}_trainsplit.csv', index_col='id')
         metadataVal = pd.read_csv(f'data/musicnet_metadata_train_{config.labelsBy}_valsplit.csv', index_col='id')
 
+    chunk_output = 'data/musicnet_chunked/'
     print("Loading the training dataset")
     trainDataset = AudioBatchData(rawAudioPath=rawAudioPath,
                                   metadata=metadataTrain,
                                   sizeWindow=config.sizeWindow,
                                   labelsBy=config.labelsBy,
-                                  outputPath='data/musicnet_lousy/train_data/train',
+                                  outputPath=chunk_output + 'train_data/train',
                                   CHUNK_SIZE=config.chunkSize,
                                   NUM_CHUNKS_INMEM=config.maxChunksInMem,
                                   useGPU=useGPU,
@@ -190,7 +191,7 @@ def main(config):
                                 metadata=metadataVal,
                                 sizeWindow=config.sizeWindow,
                                 labelsBy=config.labelsBy,
-                                outputPath='data/musicnet_lousy/train_data/val',
+                                outputPath=chunk_output+'train_data/val',
                                 CHUNK_SIZE=config.chunkSize,
                                 NUM_CHUNKS_INMEM=config.maxChunksInMem,
                                 useGPU=False,

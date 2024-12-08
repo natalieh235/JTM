@@ -61,7 +61,7 @@ def parseArgs(argv):
     groupDb.add_argument('--ignoreCache', action='store_true',
                          help='Activate if the dataset has been modified '
                               'since the last training session.')
-    groupDb.add_argument('--chunkSize', type=int, default=1e9,
+    groupDb.add_argument('--chunkSize', type=int, default=5e8,
                          help='Size (in bytes) of a data chunk')
     groupDb.add_argument('--maxChunksInMem', type=int, default=2,
                          help='Maximal amount of data chunks a dataset '
@@ -200,12 +200,13 @@ def main(config):
            metadataVal = pd.read_csv(f'data/musicnet_metadata_train_{config.labelsBy}_valsplit.csv')
         #    , index_col = 'id', drop=False)
 
+    chunk_output = 'data/musicnet_chunk/'
     print("Loading the training dataset")
     trainDataset = AudioBatchData(rawAudioPath=rawAudioPath,
                                   metadata=metadataTrain,
                                   sizeWindow=config.sizeWindow,
                                   labelsBy=config.labelsBy,
-                                  outputPath='data/musicnet_lousy/train_data/train',
+                                  outputPath=chunk_output + 'train_data/train',
                                   CHUNK_SIZE=config.chunkSize,
                                   NUM_CHUNKS_INMEM=config.maxChunksInMem,
                                   useGPU=useGPU,
@@ -218,7 +219,7 @@ def main(config):
                                 metadata=metadataVal,
                                 sizeWindow=config.sizeWindow,
                                 labelsBy=config.labelsBy,
-                                outputPath='data/musicnet_lousy/train_data/val',
+                                outputPath=chunk_output + 'train_data/val',
                                 CHUNK_SIZE=config.chunkSize,
                                 NUM_CHUNKS_INMEM=config.maxChunksInMem,
                                 useGPU=False,
@@ -275,6 +276,8 @@ def main(config):
     os.makedirs(pathCheckpoint, exist_ok=True)
     pathCheckpoint = os.path.join(pathCheckpoint, "checkpoint")
 
+    print('PATH CHECKPOINT', pathCheckpoint)
+
     scheduler = None
     if config.schedulerStep > 0:
         scheduler = torch.optim.lr_scheduler.StepLR(optimizer,
@@ -308,8 +311,8 @@ def main(config):
             experiment = comet_ml.Experiment()
         experiment.log_parameters(vars(config))
 
-    run(trainDataset, valDataset, batchSize, config.samplingType, cpcModel, cpcCriterion, config.nEpoch, optimizer,
-        scheduler, pathCheckpoint, logs, useGPU, log2Board=config.log2Board, experiment=experiment)
+    # run(trainDataset, valDataset, batchSize, config.samplingType, cpcModel, cpcCriterion, config.nEpoch, optimizer,
+    #     scheduler, pathCheckpoint, logs, useGPU, log2Board=config.log2Board, experiment=experiment)
 
 
 if __name__ == "__main__":

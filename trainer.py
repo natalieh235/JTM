@@ -288,6 +288,7 @@ def trainingLoop(trainDataset,
                 modelStateDict = cpcModel.state_dict()
                 criterionStateDict = cpcCriterion.state_dict()
 
+                print('saving checkpoint!!!!')
                 saveCheckpoint(modelStateDict, criterionStateDict, optimizer.state_dict(), bestStateDict,
                                f"{pathCheckpoint}_{epoch}.pt")
                 saveLogs(logs, pathCheckpoint + "_logs.json")

@@ -1,0 +1,11 @@
+id,sequencePath,length,composer,ensemble,composition,movement,id_cat,composer_cat,ensemble_cat,composition_cat,movement_cat
+1727,train_data/1727.wav,7152954,Schubert,Piano Quintet,Piano Quintet in A major,2. Andante,0,9,8,13,61
+1773,train_data/1773.wav,4918126,Schubert,Solo Piano,Piano Sonata in D-flat major,3. Menuetto. Allegretto,26,9,12,49,131
+2113,train_data/2113.wav,5645793,Brahms,Accompanied Cello,Cello Sonata No 1 in E minor,2. Allegretto quasi Menuetto,75,2,0,1,53
+2196,train_data/2196.wav,1207485,Bach,Solo Piano,"WTK I, No. 3: Prelude and Fugue in C-sharp major",1. Prelude,110,0,12,111,34
+2213,train_data/2213.wav,1855739,Bach,Solo Piano,"WTK I, No. 2: Prelude and Fugue in C minor",2. Fugue,123,0,12,110,76
+2220,train_data/2220.wav,4832027,Bach,Solo Cello,Cello Suite 3,4. Sarabande,129,0,10,4,187
+2389,train_data/2389.wav,7194750,Beethoven,Solo Piano,Piano Sonata No 17 in D minor,2. Adagio,210,1,12,22,38
+2486,train_data/2486.wav,7170508,Beethoven,Solo Piano,Piano Sonata No 4 in E-flat major,"2. Largo, con gran espressione",252,1,12,39,85
+2507,train_data/2507.wav,3484944,Beethoven,Wind Octet,Octet in E-flat major for Winds,4. Presto,265,1,18,9,177
+2560,train_data/2560.wav,6071276,Beethoven,String Quartet,String Quartet No 2 in G major,2. Adagio cantabile - Allegro - Tempo I,289,1,14,71,42

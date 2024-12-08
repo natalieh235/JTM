@@ -4,3 +4,4 @@ librosa
 pandas
 numpy
 torch
+jams
