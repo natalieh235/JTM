@@ -648,13 +648,20 @@ class TranscriptionCriterion(BaseCriterion):
         )
 
     def forward(self, x, encodedData, label):
+        # print('FORWARD LABEL', label.shape, x.shape)
+        # print('numclasses', self.numClasses)
         # get x of size (batch, 128, feat_dim) --> (N, L, C)
         x = x.detach()
         # x of size (batch, feat_dim, 128) --> (N, C, L)
         batchSize, seqSize, dimAR = x.size()
+        batchSize, dimAR, seqSize = x.size()
+
+        # print('seqSize', seqSize)
 
         if self.pool is not None:
             x = self.avgPool(x)
+
+
         # 8 x 128 x 11 x 129
         label = label.contiguous().view(batchSize, 11 * self.numClasses * seqSize)
         x = x.contiguous().view(batchSize, seqSize * dimAR)

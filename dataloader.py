@@ -225,6 +225,8 @@ class AudioBatchData(Dataset):
             print(idx)
 
         outData = self.data[idx:(self.sizeWindow + idx)].view(1, -1)
+
+        # print('outData', outData.shape)
     
         if self.transcript_window is not None:
             # transcription 'ad-hoc'
@@ -303,9 +305,10 @@ class AudioBatchData(Dataset):
 
                 ((considered_df['start_time'] < start) & (end < considered_df['end_time']))
 
-            ][['note', 'instrument_cat']]
+            ][['note', 'instrument']]
+            # ][['note', 'instrument_cat']]
 
-            window_filtered = window_considered.groupby(by='instrument_cat')['note'].apply(lambda x: list(np.unique(x)))
+            window_filtered = window_considered.groupby(by='instrument')['note'].apply(lambda x: list(np.unique(x)))
 
             # if transcript_start > 5e6:
             #
@@ -341,18 +344,22 @@ class AudioBatchData(Dataset):
             #     plt.close()
 
             if window_filtered.shape[0] == 0:
+                # print('silence??')
                 # if silence, then all instruments play note == 0
                 #transcript[i, 0] = 1
                 transcript[i, :,  0] = 1
             else:
+                # print('not silence')
                 # transcript[i, notes] = 1
                 for idx in range(window_filtered.shape[0]):
                     instrument = window_filtered.index[idx]
                     notes = window_filtered.iloc[idx]
                     transcript[i, instrument, notes] = 1
 
+        # print('window size', self.sizeWindow, end-transcript_start)
         assert self.sizeWindow == end - transcript_start
 
+        # print('transcirpt label', transcript.shape)
         return transcript
 
 
@@ -388,7 +395,7 @@ class AudioLoader(object):
         self.numWorkers = numWorkers
 
     def __len__(self):
-        return self.size
+        return int(self.size)
 
     def __iter__(self):
 

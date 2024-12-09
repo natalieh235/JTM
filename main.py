@@ -183,9 +183,9 @@ def main(config):
         print('metadataTrain', metadataTrain)
         # print('metadataVal', metadataVal)
         if config.transcriptionWindow is not None:
-           musicNetMetadataTranscript = pd.read_csv('data/musicnet_metadata_transcript_train_alldata.csv')
-           metadataTrain = musicNetMetadataTranscript[musicNetMetadataTranscript['id'].isin(metadataTrain.index)]
-           metadataVal = musicNetMetadataTranscript[musicNetMetadataTranscript['id'].isin(metadataVal.index)]
+           musicNetMetadataTranscript = pd.read_csv('data/metadata_transcript_train.csv')
+           metadataTrain = musicNetMetadataTranscript[musicNetMetadataTranscript['id'].isin(metadataTrain.id)]
+           metadataVal = musicNetMetadataTranscript[musicNetMetadataTranscript['id'].isin(metadataVal.id)]
            metadataTrain.to_csv(f'data/musicnet_metadata_train_transcription_{config.labelsBy}_trainsplit.csv')
            metadataVal.to_csv(f'data/musicnet_metadata_train_transcription_{config.labelsBy}_valsplit.csv')
         else:
@@ -201,7 +201,7 @@ def main(config):
            metadataVal = pd.read_csv(f'data/musicnet_metadata_train_{config.labelsBy}_valsplit.csv')
         #    , index_col = 'id', drop=False)
 
-    chunk_output = 'data/new_chunks/'
+    chunk_output = 'data/transcription_chunks/'
     # chunk_output = "../musicnet_big/"
     print("Loading the training dataset")
     trainDataset = AudioBatchData(rawAudioPath=rawAudioPath,
