@@ -324,12 +324,13 @@ class AudioBatchData(Dataset):
             # Now, aggregate the labels over the pooled latent vectors (40 ms windows)
             # Since each 40 ms window corresponds to 4 original 10 ms latent vectors, 
             # aggregate the labels for every 4 latent vectors into 1 label for the pooled window
-            pooled_window = i // 4  # This corresponds to the index of the pooled latent vector
-            if pooled_window < n_windows // 4:
+            pool_factor = self.transcript_window//10
+            pooled_window = i // pool_factor  # This corresponds to the index of the pooled latent vector
+            if pooled_window < n_windows // pool_factor:
                 for instrument in range(11):  # For each instrument
                     for note in range(129):  # For each note
                         # Aggregate the labels for the 4 original windows that correspond to this pooled window
-                        pooled_label = transcript[pooled_window * 4:(pooled_window + 1) * 4, instrument, note].max()
+                        pooled_label = transcript[pooled_window * pool_factor:(pooled_window + 1) * pool_factor, instrument, note].max()
                         transcript[pooled_window, instrument, note] = pooled_label
 
         # Ensure that the window size matches the expected value
