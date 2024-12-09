@@ -1,6 +1,7 @@
 /musicnet_lousy/*
 /musicnet_chunk/*
 /transcription_chunks/*
+/half_musicnet_transcription_chunks/*
 musicnet_metadata_train_ensemble_trainsplit.csv
 musicnet_metadata_train_ensemble_valsplit.csv
 /new_chunks/*

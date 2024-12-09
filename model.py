@@ -596,12 +596,9 @@ class CategoryCriterion(BaseCriterion):
             self.numFeatures = hiddenGar * (((sizeWindow // downSampling) + 2 * padding - kernelSize) // stride + 1)
         else:
             self.numFeatures = hiddenGar * (sizeWindow // downSampling)
+        
         self.numClasses = numClasses
         self.lossCriterion = nn.CrossEntropyLoss()
-        # print("Num features: ", self.numFeatures)
-        # print("hiddenGar: ", hiddenGar)
-        # print("Seq length: ", (sizeWindow // downSampling))
-        # print("Pool: ", pool)
         self.wPrediction = nn.Linear(self.numFeatures, numClasses)
 
     def forward(self, x, encodedData, label):
@@ -686,7 +683,7 @@ class TranscriptionCriterion(BaseCriterion):
         label = label.contiguous().view(batchSize, self.outputSize)
         x = x.contiguous().view(batchSize, seqSize * dimAR // self.windowRatio)
 
-        
+        print('final x shape', x.shape, 'final label shape', label.shape)
         # print('after pooling x', x.shape)
 
         predictions = self.wPrediction(x)
@@ -694,7 +691,7 @@ class TranscriptionCriterion(BaseCriterion):
         predsIndex = predictions_sigm > 0.5
 
         #loss = self.lossCriterion(predictions, label)
-        weight = torch.empty(11 * self.numClasses * seqSize)
+        weight = torch.empty(self.outputSize)
         weight[:] = (label == 0).sum() / label.sum()
         loss = nn.BCEWithLogitsLoss(pos_weight=weight.cuda())(predictions, label)
         accuracy = torch.sum(predsIndex == label).float().view(1, -1) / (batchSize * label.shape[1])

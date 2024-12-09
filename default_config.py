@@ -2,17 +2,17 @@ import argparse
 
 # rawAudioPath = 'data/fake_train_data'
 # rawLabelsPath= 'data/fake_train_labels'
-metadataPathTrain = 'data/transcription/train_small.csv'
-metadataPathTest = 'data/transcription/test_small.csv'
+# metadataPathTrain = 'data/transcription/train_small.csv'
+# metadataPathTest = 'data/transcription/test_small.csv'
 
 # rawAudioPath = '../drive/MyDrive/train_small'
 # rawLabelsPath= '../drive/MyDrive/train_small_labels'
-# rawAudioPath = '../musicnet/musicnet/half_train_data'
-# rawLabelsPath= '../musicnet/musicnet/train_labels'
-rawAudioPath = '../musicnet/train_small'
-rawLabelsPath= '../musicnet/train_small_labels'
-# metadataPathTrain = 'data/musicnet_metadata_train_sorted.csv'
-# metadataPathTest = 'data/musicnet_metadata_test_sorted.csv'
+rawAudioPath = '../musicnet/musicnet/train_data'
+rawLabelsPath= '../musicnet/musicnet/train_labels'
+# rawAudioPath = '../musicnet/train_small'
+# rawLabelsPath= '../musicnet/train_small_labels'
+metadataPathTrain = 'data/transcription/musicnet_metadata_train_sorted.csv'
+metadataPathTest = 'data/transcription/musicnet_metadata_test_sorted.csv'
 
 
 

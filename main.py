@@ -154,7 +154,7 @@ def main(config):
 
     useGPU = torch.cuda.is_available()
 
-    metadata_dir = f'data/musicnet_metadata_train_transcription_{config.labelsBy}_trainsplit.csv' if \
+    metadata_dir = f'data/transcription/musicnet_metadata_train_transcription_{config.labelsBy}_trainsplit.csv' if \
                            config.transcriptionWindow is not None \
                            else f'data/musicnet_metadata_train_{config.labelsBy}_trainsplit.csv'
     print('metadata_dir', metadata_dir)
@@ -172,7 +172,7 @@ def main(config):
             else:
                 metadataTrain, metadataVal = train_test_split(musicNetMetadataTrain, test_size=0.1)
                                                             #  stratify=musicNetMetadataTrain[config.labelsBy])
-            print(metadataTrain.shape, metadataVal.shape)
+            print('train and val shapes', metadataTrain.shape, metadataVal.shape)
 
         except ValueError:
             for col, count in zip(musicNetMetadataTrain[config.labelsBy].value_counts().index,
@@ -182,22 +182,24 @@ def main(config):
                     musicNetMetadataTrain = musicNetMetadataTrain.append(subDF)
             metadataTrain, metadataVal = train_test_split(musicNetMetadataTrain, test_size=0.1,
                                                           stratify=musicNetMetadataTrain[config.labelsBy])
-        
-        # print('metadataTrain', metadataTrain.size)
-        # print('metadataVal', metadataVal)
+
         if config.transcriptionWindow is not None:
            musicNetMetadataTranscript = pd.read_csv('data/metadata_transcript_train.csv')
+
+           print(metadataVal['id'].unique(), metadataVal[metadataVal['ensemble'] == 'Solo Piano'])
            metadataTrain = musicNetMetadataTranscript[musicNetMetadataTranscript['id'].isin(metadataTrain.id)]
            metadataVal = musicNetMetadataTranscript[musicNetMetadataTranscript['id'].isin(metadataVal.id)]
-           metadataTrain.to_csv(f'data/musicnet_metadata_train_transcription_{config.labelsBy}_trainsplit.csv')
-           metadataVal.to_csv(f'data/musicnet_metadata_train_transcription_{config.labelsBy}_valsplit.csv')
+
+           print('hmmm', metadataVal.shape, metadataVal)
+           metadataTrain.to_csv(f'data/transcription/musicnet_metadata_train_transcription_{config.labelsBy}_trainsplit.csv')
+           metadataVal.to_csv(f'data/transcription/musicnet_metadata_train_transcription_{config.labelsBy}_valsplit.csv')
         else:
            metadataTrain.to_csv(f'data/musicnet_metadata_train_{config.labelsBy}_trainsplit.csv')
            metadataVal.to_csv(f'data/musicnet_metadata_train_{config.labelsBy}_valsplit.csv')
     else:
         if config.transcriptionWindow is not None:
-           metadataTrain = pd.read_csv(f'data/musicnet_metadata_train_transcription_{config.labelsBy}_trainsplit.csv')
-           metadataVal = pd.read_csv(f'data/musicnet_metadata_train_transcription_{config.labelsBy}_valsplit.csv')
+           metadataTrain = pd.read_csv(f'data/transcription/musicnet_metadata_train_transcription_{config.labelsBy}_trainsplit.csv')
+           metadataVal = pd.read_csv(f'data/transcription/musicnet_metadata_train_transcription_{config.labelsBy}_valsplit.csv')
         else:
            metadataTrain = pd.read_csv(f'data/musicnet_metadata_train_{config.labelsBy}_trainsplit.csv')
                                     #    , index_col = 'id', drop=False)
@@ -205,8 +207,9 @@ def main(config):
         #    , index_col = 'id', drop=False)
 
     print('metadataTrain', metadataTrain.shape, metadataTrain['id'].unique())
-    print('metaadataVal', metadataVal.shape, metadataVal['id'].unique())
-    chunk_output = 'data/transcription_chunks/'
+    print('metadataVal', metadataVal.shape, metadataVal['id'].unique())
+
+    chunk_output = 'data/half_musicnet_transcription_chunks/'
     # chunk_output = "../musicnet_big/"
     print("Loading the training dataset")
     trainDataset = AudioBatchData(rawAudioPath=rawAudioPath,
@@ -310,13 +313,15 @@ def main(config):
     if config.log2Board:
         comet_ml.init(project_name="jtm", workspace="natalieh235")
         if not os.path.exists('.comet.config'):
-            cometKey = input("Please enter your Comet.ml API key: ")
-            experiment = comet_ml.Experiment(cometKey)
-            cometConfigFile = open(".comet.config", "w")
-            cometConfigFile.write(f"[comet]\napi_key={cometKey}")
-            cometConfigFile.close()
+            # cometKey = input("Please enter your Comet.ml API key: ")
+            # experiment = comet_ml.Experiment(cometKey)
+            experiment = comet_ml.start(online=False)
+            # cometConfigFile = open(".comet.config", "w")
+            # cometConfigFile.write(f"[comet]\napi_key={cometKey}")
+            # cometConfigFile.close()
         else:
-            experiment = comet_ml.Experiment()
+            # experiment = comet_ml.Experiment()
+            experiment = comet_ml.start(online=False)
         experiment.log_parameters(vars(config))
 
     run(trainDataset, valDataset, batchSize, config.samplingType, cpcModel, cpcCriterion, config.nEpoch, optimizer,

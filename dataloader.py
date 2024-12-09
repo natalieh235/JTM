@@ -13,6 +13,8 @@ import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 
+from scipy.io.wavfile import write
+
 # change later
 from default_config import rawLabelsPath
 
@@ -186,7 +188,7 @@ class AudioBatchData(Dataset):
                     # print('seqId', seqId)
                     currentCategory = np.unique(self.sequencesData[self.sequencesData['id'] == seqId][self.category])[0]
                     if currentCategory != self.previousCategory:
-                        print('currentcateogry', currentCategory)
+                        # print('currentcateogry', currentCategory)
                         self.categoryLabel.append(packageSize)
                         # print(f"{self.previousCategory}, {self.categoryLabel[-2]}, {self.categoryLabel[-1]}")
                     self.previousCategory = currentCategory
@@ -236,15 +238,37 @@ class AudioBatchData(Dataset):
         if idx < 0 or idx >= len(self.data) - self.sizeWindow - 1:
             print(idx)
 
-        print('self.data shape', self.data.shape)
+        # print('self.data shape', self.data.shape)
         outData = self.data[idx:(self.sizeWindow + idx)].view(1, -1)
 
         # print('outData', outData.shape)
+        
     
         if self.transcript_window is not None:
-            # transcription 'ad-hoc'
             song_id = self.getCategoryLabel(idx)
+
+            save_wav = False
+            if save_wav:
+                # transcription 'ad-hoc'
+                
+
+                # Convert outData to numpy array (you may need to scale it if it's not in the right range)
+                outData = outData.squeeze().cpu().numpy()
+
+                # Assuming the data is in the range [-1, 1] for audio, scale to 16-bit PCM range
+                outData = np.int16(outData * 32767)
+
+                # Define the sampling rate (16 kHz as in your previous example)
+                sample_rate = 16000
+
+                # Save the audio to a WAV file
+                wav_filename = f"output_{song_id}_{idx}.wav"
+                write(wav_filename, sample_rate, outData)
+
             label = self._musicTranscripterNat(idx, song_id)
+            # print(f"Labels for song_id {song_id} at index {idx}:")
+            # print(label.shape)
+            # print(label[:, 1, :])
         else:
             label = torch.tensor(self.getCategoryLabel(idx), dtype=torch.long)
 
@@ -342,6 +366,8 @@ class AudioBatchData(Dataset):
                     instrument = window_filtered.index[idx]
                     notes = window_filtered.iloc[idx]
                     # Mark the notes as played for the current instrument in this window
+                    # for n in notes:
+                    #     print(f'found note {n} for instru {instrument} at window {i}')
                     transcript[i, instrument, notes] = 1
 
         # pool_factor = self.transcript_window // 10  # Number of 10 ms latent vectors in a 40 ms window
@@ -355,7 +381,7 @@ class AudioBatchData(Dataset):
         # transcript_pooled = transcript_reshaped.max(dim=1)[0]  # This applies max pooling along the second dimension
 
         # Ensure that the window size matches the expected value
-        print('assert', self.sizeWindow, end - transcript_start)
+        # print('assert', self.sizeWindow, end - transcript_start)
         assert self.sizeWindow == (end - transcript_start)
 
         return transcript

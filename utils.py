@@ -109,6 +109,7 @@ def updateLogs(logs, logStep, prevlogs=None):
 
 
 def saveLogs(data, pathLogs):
+    
     with open(pathLogs, 'w') as file:
         json.dump(data, file, indent=2)
 

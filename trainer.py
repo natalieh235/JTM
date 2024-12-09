@@ -15,6 +15,8 @@ def trainStep(dataLoader,
               log2Board,
               totalSteps,
               experiment):
+    
+    # print(cpcModel)
     cpcModel.train()
     cpcCriterion.train()
 
