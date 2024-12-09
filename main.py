@@ -32,8 +32,10 @@ def getCriterion(config, downsampling, nClasses=None):
         if config.task == 'classification':
             cpcCriterion = CategoryCriterion(config.hiddenGar, config.sizeWindow, downsampling, nClasses, pool=(4, 0, 4))
         elif config.task == 'transcription':
-            cpcCriterion = TranscriptionCriterion(config.hiddenGar, config.sizeWindow, downsampling, pool=None)
-                                                  #pool=(128/(config.transcriptionWindow/10), 0, 128/(config.transcriptionWindow/10)))
+            cpcCriterion = TranscriptionCriterion(config.hiddenGar, config.sizeWindow, downsampling, 
+                                                #   pool=None)
+                                                pool = (config.transcriptionWindow//10, 0, config.transcriptionWindow//10))
+                                                #   pool=(int(128/(config.transcriptionWindow/10)), 0, int(128/(config.transcriptionWindow/10))))
         else:
             raise NotImplementedError
 

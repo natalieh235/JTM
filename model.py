@@ -633,8 +633,11 @@ class TranscriptionCriterion(BaseCriterion):
         self.pool = pool
         if pool is not None:
             kernelSize, padding, stride = pool
+            print('POOL', kernelSize, padding, stride)
             self.avgPool = nn.AvgPool1d(kernelSize, stride, padding)
             self.numFeatures = int(hiddenGar * (((sizeWindow // downSampling) + 2 * padding - kernelSize) // stride + 1))
+            print('num features', self.numFeatures)
+            print(downSampling)
         else:
             self.numFeatures = int(hiddenGar * (sizeWindow // downSampling))
         print(self.numFeatures)
@@ -647,24 +650,35 @@ class TranscriptionCriterion(BaseCriterion):
             nn.Linear(100, 11 * self.numClasses * (sizeWindow // downSampling))
         )
 
+        print('OUTPUT SIZE', 11 * self.numClasses * (sizeWindow // downSampling))
+
     def forward(self, x, encodedData, label):
-        # print('FORWARD LABEL', label.shape, x.shape)
+        print('FORWARD LABEL', x.shape, label.shape)
         # print('numclasses', self.numClasses)
         # get x of size (batch, 128, feat_dim) --> (N, L, C)
         x = x.detach()
+
+        print('permuted x', x.shape)
+        # print('encoded shape', encodedData.shape)
         # x of size (batch, feat_dim, 128) --> (N, C, L)
         batchSize, seqSize, dimAR = x.size()
-        batchSize, dimAR, seqSize = x.size()
+        # batchSize, dimAR, seqSize = x.size()
 
-        # print('seqSize', seqSize)
+        print('seqSize', seqSize, 'dimAR', dimAR)
 
         if self.pool is not None:
+            print('pooling')
+            x = torch.permute(x, (0, 2, 1))
             x = self.avgPool(x)
 
-
+        print('after pooling x', x.shape)
+        print('label', label.shape, 'should be', 11 * self.numClasses * seqSize)
         # 8 x 128 x 11 x 129
         label = label.contiguous().view(batchSize, 11 * self.numClasses * seqSize)
         x = x.contiguous().view(batchSize, seqSize * dimAR)
+
+        
+        # print('after pooling x', x.shape)
 
         predictions = self.wPrediction(x)
         predictions_sigm = nn.Sigmoid()(predictions)
