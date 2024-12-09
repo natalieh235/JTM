@@ -180,7 +180,8 @@ def main(config):
             metadataTrain, metadataVal = train_test_split(musicNetMetadataTrain, test_size=0.1,
                                                           stratify=musicNetMetadataTrain[config.labelsBy])
         
-        
+        print('metadataTrain', metadataTrain)
+        # print('metadataVal', metadataVal)
         if config.transcriptionWindow is not None:
            musicNetMetadataTranscript = pd.read_csv('data/musicnet_metadata_transcript_train_alldata.csv')
            metadataTrain = musicNetMetadataTranscript[musicNetMetadataTranscript['id'].isin(metadataTrain.index)]
@@ -216,6 +217,7 @@ def main(config):
     print("dataset len: ", len(trainDataset))
 
     print("Loading the validation dataset")
+    print('metadataVal', metadataVal)
     valDataset = AudioBatchData(rawAudioPath=rawAudioPath,
                                 metadata=metadataVal,
                                 sizeWindow=config.sizeWindow,
@@ -312,8 +314,8 @@ def main(config):
             experiment = comet_ml.Experiment()
         experiment.log_parameters(vars(config))
 
-    # run(trainDataset, valDataset, batchSize, config.samplingType, cpcModel, cpcCriterion, config.nEpoch, optimizer,
-    #     scheduler, pathCheckpoint, logs, useGPU, log2Board=config.log2Board, experiment=experiment)
+    run(trainDataset, valDataset, batchSize, config.samplingType, cpcModel, cpcCriterion, config.nEpoch, optimizer,
+       scheduler, pathCheckpoint, logs, useGPU, log2Board=config.log2Board, experiment=experiment)
 
 
 if __name__ == "__main__":

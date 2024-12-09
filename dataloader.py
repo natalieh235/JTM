@@ -53,6 +53,8 @@ class AudioBatchData(Dataset):
         else:
             cols_to_sort_by = labelsBy
 
+
+        print(metadata)
         self.sequencesData = metadata.sort_values(by=cols_to_sort_by) # big concatenated csv
 
         print(self.sequencesData)
@@ -216,7 +218,7 @@ class AudioBatchData(Dataset):
         return self.labels[idCategory]
 
     def __len__(self):
-        return self.totSize // self.sizeWindow
+        return int(self.totSize // self.sizeWindow)
 
     def __getitem__(self, idx):
         if idx < 0 or idx >= len(self.data) - self.sizeWindow - 1:
