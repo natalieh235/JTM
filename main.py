@@ -158,12 +158,13 @@ def main(config):
                            config.transcriptionWindow is not None \
                            else f'data/musicnet_metadata_train_{config.labelsBy}_trainsplit.csv'
     print('metadata_dir', metadata_dir)
+    print('metadata train', metadataPathTrain)
     # create the split
     if not os.path.exists(metadata_dir):
         # musicNetMetadataTrain = pd.read_csv('data/musicnet_metadata_train.csv', index_col = 'id')
         musicNetMetadataTrain = pd.read_csv(metadataPathTrain)
                                             # , index_col = 'id', drop=False)
-   
+        print('train csv', musicNetMetadataTrain.shape)
         try:
             if config.transcriptionWindow is not None:
                metadataTrain, metadataVal = train_test_split(musicNetMetadataTrain, test_size=0.1)
@@ -182,7 +183,7 @@ def main(config):
             metadataTrain, metadataVal = train_test_split(musicNetMetadataTrain, test_size=0.1,
                                                           stratify=musicNetMetadataTrain[config.labelsBy])
         
-        print('metadataTrain', metadataTrain)
+        # print('metadataTrain', metadataTrain.size)
         # print('metadataVal', metadataVal)
         if config.transcriptionWindow is not None:
            musicNetMetadataTranscript = pd.read_csv('data/metadata_transcript_train.csv')
@@ -203,6 +204,8 @@ def main(config):
            metadataVal = pd.read_csv(f'data/musicnet_metadata_train_{config.labelsBy}_valsplit.csv')
         #    , index_col = 'id', drop=False)
 
+    print('metadataTrain', metadataTrain.shape, metadataTrain['id'].unique())
+    print('metaadataVal', metadataVal.shape, metadataVal['id'].unique())
     chunk_output = 'data/transcription_chunks/'
     # chunk_output = "../musicnet_big/"
     print("Loading the training dataset")
@@ -219,7 +222,7 @@ def main(config):
     print("dataset len: ", len(trainDataset))
 
     print("Loading the validation dataset")
-    print('metadataVal', metadataVal)
+    # print('metadataVal', metadataVal)
     valDataset = AudioBatchData(rawAudioPath=rawAudioPath,
                                 metadata=metadataVal,
                                 sizeWindow=config.sizeWindow,

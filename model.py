@@ -631,26 +631,35 @@ class TranscriptionCriterion(BaseCriterion):
                  pool=None):
         super(TranscriptionCriterion, self).__init__()
         self.pool = pool
+        self.windowRatio = 1
         if pool is not None:
             kernelSize, padding, stride = pool
             print('POOL', kernelSize, padding, stride)
             self.avgPool = nn.AvgPool1d(kernelSize, stride, padding)
+            self.windowRatio = kernelSize
             self.numFeatures = int(hiddenGar * (((sizeWindow // downSampling) + 2 * padding - kernelSize) // stride + 1))
-            print('num features', self.numFeatures)
-            print(downSampling)
+
         else:
             self.numFeatures = int(hiddenGar * (sizeWindow // downSampling))
-        print(self.numFeatures)
+        print('model numfeatures', self.numFeatures)
         self.numClasses = numClasses
+
+       
+
+        self.outputSize = 11 * self.numClasses * (sizeWindow // downSampling // kernelSize)
         # self.lossCriterion = nn.BCEWithLogitsLoss(pos_weight=)
         self.wPrediction = nn.Sequential(
             nn.Linear(self.numFeatures, 100), # possibly change n_neurons?
             nn.BatchNorm1d(100),
             nn.ReLU(),
-            nn.Linear(100, 11 * self.numClasses * (sizeWindow // downSampling))
+            nn.Linear(100, self.outputSize)
         )
 
-        print('OUTPUT SIZE', 11 * self.numClasses * (sizeWindow // downSampling))
+        # 20480 160 
+        print(sizeWindow, downSampling)
+
+        # for 40ms, 181632
+        print('OUTPUT SIZE', self.outputSize)
 
     def forward(self, x, encodedData, label):
         print('FORWARD LABEL', x.shape, label.shape)
@@ -672,10 +681,10 @@ class TranscriptionCriterion(BaseCriterion):
             x = self.avgPool(x)
 
         print('after pooling x', x.shape)
-        print('label', label.shape, 'should be', 11 * self.numClasses * seqSize)
+        print('label', label.shape, 'should be', self.outputSize)
         # 8 x 128 x 11 x 129
-        label = label.contiguous().view(batchSize, 11 * self.numClasses * seqSize)
-        x = x.contiguous().view(batchSize, seqSize * dimAR)
+        label = label.contiguous().view(batchSize, self.outputSize)
+        x = x.contiguous().view(batchSize, seqSize * dimAR // self.windowRatio)
 
         
         # print('after pooling x', x.shape)

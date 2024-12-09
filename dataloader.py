@@ -54,10 +54,13 @@ class AudioBatchData(Dataset):
             cols_to_sort_by = labelsBy
 
 
-        print(metadata)
+        # print(metadata)
         self.sequencesData = metadata.sort_values(by=cols_to_sort_by) # big concatenated csv
 
-        print(self.sequencesData)
+        unique_values = self.sequencesData['id'].unique()
+        print('song ids', unique_values)
+
+        print('BATCH LOADER SEQUENCE DATA for ', self.sequencesData.shape)
 
         if self.transcript_window is not None:
             for i in self.sequencesData['id_cat'].unique()[1:]:
@@ -98,8 +101,6 @@ class AudioBatchData(Dataset):
         self.transcript_packs = []
         packOfChunks = []
 
-        #self.packs = []
-        #packOfChunks = []
         for i, packagePath in enumerate(packages2Load):
             packOfChunks.append(packagePath)
             if (i + 1) % self.NUM_CHUNKS_INMEM == 0:
@@ -164,6 +165,8 @@ class AudioBatchData(Dataset):
             packageIdx = [0]
             self.seqLabel = [0]
             packageSize = 0
+
+            print('CHUNK LOADER: ', self.currentPack)
             if self.currentPack == 0:
                 with open(self.chunksDir / (
                         'ids_' + self.packs[0][0].split('_', maxsplit=1)[-1]), 'rb') as handle:
@@ -172,12 +175,18 @@ class AudioBatchData(Dataset):
                 print('ids', chunkIds, self.chunksDir / (
                         'ids_' + self.packs[0][0].split('_', maxsplit=1)[-1]))
                 self.previousCategory = self.sequencesData[self.sequencesData['id'] == chunkIds[0]][self.category].iloc[0]
+
+                # category is the song_id i think
+                # print('prev', self.previousCategory)
             for packagePath in self.packs[self.currentPack]:
+                # print('packagepath', packagePath)
                 with open(self.chunksDir / ('ids_' + packagePath.split('_', maxsplit=1)[-1]), 'rb') as handle:
                     chunkIds = pickle.load(handle)
                 for seqId in chunkIds:
+                    # print('seqId', seqId)
                     currentCategory = np.unique(self.sequencesData[self.sequencesData['id'] == seqId][self.category])[0]
                     if currentCategory != self.previousCategory:
+                        print('currentcateogry', currentCategory)
                         self.categoryLabel.append(packageSize)
                         # print(f"{self.previousCategory}, {self.categoryLabel[-2]}, {self.categoryLabel[-1]}")
                     self.previousCategory = currentCategory
@@ -185,8 +194,11 @@ class AudioBatchData(Dataset):
                     self.seqLabel.append(packageSize)
                 packageIdx.append(packageSize)
             self.categoryLabel.append(packageSize)
+            # print('category label', self.categoryLabel)
             # print(f"{self.previousCategory}, {self.categoryLabel[-2]}, {self.categoryLabel[-1]}")
 
+            # print('PACKAGE SIZE', packageSize)
+            # print('package idx', packageIdx)
             self.data = torch.empty(size=(packageSize,))
 
             for i, packagePath in enumerate(self.packs[self.currentPack]):
@@ -224,7 +236,7 @@ class AudioBatchData(Dataset):
         if idx < 0 or idx >= len(self.data) - self.sizeWindow - 1:
             print(idx)
 
-        # print('self.data shape', self.data.shape)
+        print('self.data shape', self.data.shape)
         outData = self.data[idx:(self.sizeWindow + idx)].view(1, -1)
 
         # print('outData', outData.shape)
@@ -232,7 +244,7 @@ class AudioBatchData(Dataset):
         if self.transcript_window is not None:
             # transcription 'ad-hoc'
             song_id = self.getCategoryLabel(idx)
-            label = self._musicTranscripter(idx, song_id)
+            label = self._musicTranscripterNat(idx, song_id)
         else:
             label = torch.tensor(self.getCategoryLabel(idx), dtype=torch.long)
 
@@ -283,22 +295,31 @@ class AudioBatchData(Dataset):
         return AudioLoader(self, samplerCall, nLoops, self._loadNextPack, totSize, numWorkers)
 
 
-    def _musicTranscripter(self, transcript_start, song_id):
+    def _musicTranscripterNat(self, transcript_start, song_id):
         '''
         Provides binary target matrices denoting all instruments that play during
         each window_size_ms window in the latent representations.
         '''
         
+        # print('MUSIC TRANSCRIPTOR FOR IDX', transcript_start, 'song id', song_id)
         considered_df = self.sequencesData[self.sequencesData['id_cat'] == song_id]
-        n_windows = self.sizeWindow // self.transcript_window  # The number of 10 ms windows
+
+        transcript_window_frames = (self.transcript_window * 16)  
+        # print(self.sequencesData.size)
+        # print(considered_df.size, self.sequencesData[transcript_start])
+        n_windows = self.sizeWindow // transcript_window_frames
         
         # Initialize the transcript tensor to store labels for each window
         transcript = torch.zeros(n_windows, 11, 129)  # 11 instruments, 129 possible notes
         end = 0
 
         for i in range(n_windows):
-            start = i * self.transcript_window + transcript_start
-            end = start + self.transcript_window
+            # start frame of this window
+            start = i * transcript_window_frames + transcript_start
+            # end time of window
+            end = start + transcript_window_frames
+
+            # print(f'window {i}, start: {start}, end: {end}')
 
             # Consider rows where the note occurs within the window [start, end]
             window_considered = considered_df[
@@ -307,9 +328,11 @@ class AudioBatchData(Dataset):
                 ((considered_df['start_time'] < start) & (end < considered_df['end_time']))
             ][['note', 'instrument']]
 
+
+            # print('considered', window_considered)
             # Group by instrument and gather the unique notes played
             window_filtered = window_considered.groupby(by='instrument')['note'].apply(lambda x: list(np.unique(x)))
-
+            
             # If no notes are played, mark silence (set all notes for all instruments to 0)
             if window_filtered.shape[0] == 0:
                 transcript[i, :, 0] = 1  # Silence, no notes played for any instrument
@@ -321,106 +344,105 @@ class AudioBatchData(Dataset):
                     # Mark the notes as played for the current instrument in this window
                     transcript[i, instrument, notes] = 1
 
-            # Now, aggregate the labels over the pooled latent vectors (40 ms windows)
-            # Since each 40 ms window corresponds to 4 original 10 ms latent vectors, 
-            # aggregate the labels for every 4 latent vectors into 1 label for the pooled window
-            pool_factor = self.transcript_window//10
-            pooled_window = i // pool_factor  # This corresponds to the index of the pooled latent vector
-            if pooled_window < n_windows // pool_factor:
-                for instrument in range(11):  # For each instrument
-                    for note in range(129):  # For each note
-                        # Aggregate the labels for the 4 original windows that correspond to this pooled window
-                        pooled_label = transcript[pooled_window * pool_factor:(pooled_window + 1) * pool_factor, instrument, note].max()
-                        transcript[pooled_window, instrument, note] = pooled_label
+        # pool_factor = self.transcript_window // 10  # Number of 10 ms latent vectors in a 40 ms window
+        # n_pooled_windows = n_windows // pool_factor  # Total number of pooled windows
+
+        # # Reshape the transcript tensor to (n_pooled_windows, pool_factor, 11, 129)
+        # # Each chunk of `pool_factor` latent vectors will be pooled into one vector
+        # transcript_reshaped = transcript.view(n_pooled_windows, pool_factor, 11, 129)
+
+        # # Apply max pooling along the `pool_factor` axis (the time dimension for 10 ms windows)
+        # transcript_pooled = transcript_reshaped.max(dim=1)[0]  # This applies max pooling along the second dimension
 
         # Ensure that the window size matches the expected value
-        assert self.sizeWindow == end - transcript_start
+        print('assert', self.sizeWindow, end - transcript_start)
+        assert self.sizeWindow == (end - transcript_start)
 
         return transcript
     
-    # def _musicTranscripter(self, transcript_start, song_id):
-    #     '''
-    #     Provides binary target matrices denoting all instruments that play during
-    #     for each window_size_ms window in the latent representations
-    #     '''
+    def _musicTranscripter(self, transcript_start, song_id):
+        '''
+        Provides binary target matrices denoting all instruments that play during
+        for each window_size_ms window in the latent representations
+        '''
 
-    #     considered_df = self.sequencesData[self.sequencesData['id_cat'] == song_id]
-    #     n_windows = self.sizeWindow // 160 // (self.transcript_window//10)
+        considered_df = self.sequencesData[self.sequencesData['id_cat'] == song_id]
+        n_windows = self.sizeWindow // self.transcript_window
 
-    #     print('n windows', n_windows, self.sizeWindow, self.transcript_window)
-    #     transcript = torch.zeros(n_windows, 11, 129) # n_instruments = 11
-    #     # transcript = torch.zeros(n_windows, 11, 129)
-    #     end=0
+        print('n windows', n_windows, self.sizeWindow, self.transcript_window)
+        transcript = torch.zeros(n_windows, 11, 129) # n_instruments = 11
+        # transcript = torch.zeros(n_windows, 11, 129)
+        end=0
         
-    #     for i in range(n_windows):
+        for i in range(n_windows):
             
-    #         start = i * self.transcript_window + transcript_start
-    #         end = start + self.transcript_window
+            start = i * self.transcript_window + transcript_start
+            end = start + self.transcript_window
 
-    #         window_considered = considered_df[
+            window_considered = considered_df[
 
-    #             (considered_df['start_time'].between(start, end)) | \
+                (considered_df['start_time'].between(start, end)) | \
 
-    #             (considered_df['end_time'].between(start, end)) | \
+                (considered_df['end_time'].between(start, end)) | \
 
-    #             ((considered_df['start_time'] < start) & (end < considered_df['end_time']))
+                ((considered_df['start_time'] < start) & (end < considered_df['end_time']))
 
-    #         ][['note', 'instrument']]
-    #         # ][['note', 'instrument_cat']]
+            ][['note', 'instrument']]
+            # ][['note', 'instrument_cat']]
 
-    #         window_filtered = window_considered.groupby(by='instrument')['note'].apply(lambda x: list(np.unique(x)))
+            window_filtered = window_considered.groupby(by='instrument')['note'].apply(lambda x: list(np.unique(x)))
 
-    #         # if transcript_start > 5e6:
-    #         #
-    #         #
-    #         #     xmin = considered_df[
-    #         #
-    #         #     (considered_df['start_time'].between(start, end)) | \
-    #         #
-    #         #     (considered_df['end_time'].between(start, end)) | \
-    #         #
-    #         #     ((considered_df['start_time'] < start) & (end < considered_df['end_time']))
-    #         #
-    #         #     ]['start_time'].values
-    #         #
-    #         #     xmax = considered_df[
-    #         #
-    #         #     (considered_df['start_time'].between(start, end)) | \
-    #         #
-    #         #     (considered_df['end_time'].between(start, end)) | \
-    #         #
-    #         #     ((considered_df['start_time'] < start) & (end < considered_df['end_time']))
-    #         #
-    #         #     ]['end_time'].values
-    #         #
-    #         #     plt.figure(figsize=(12, 6))
-    #         #     plt.hlines(notes, xmin, xmax, linewidth=8)
-    #         #     plt.savefig(f"id_{song_id}_start_{start}_end_{end}.png")
-    #         #     plt.close()
-    #         #
-    #         #     plt.figure(figsize=(12, 6))
-    #         #     plt.hlines(true_notes, xmin, xmax, linewidth=8)
-    #         #     plt.savefig(f"true_id_{song_id}_start_{start}_end_{end}.png")
-    #         #     plt.close()
+            # if transcript_start > 5e6:
+            #
+            #
+            #     xmin = considered_df[
+            #
+            #     (considered_df['start_time'].between(start, end)) | \
+            #
+            #     (considered_df['end_time'].between(start, end)) | \
+            #
+            #     ((considered_df['start_time'] < start) & (end < considered_df['end_time']))
+            #
+            #     ]['start_time'].values
+            #
+            #     xmax = considered_df[
+            #
+            #     (considered_df['start_time'].between(start, end)) | \
+            #
+            #     (considered_df['end_time'].between(start, end)) | \
+            #
+            #     ((considered_df['start_time'] < start) & (end < considered_df['end_time']))
+            #
+            #     ]['end_time'].values
+            #
+            #     plt.figure(figsize=(12, 6))
+            #     plt.hlines(notes, xmin, xmax, linewidth=8)
+            #     plt.savefig(f"id_{song_id}_start_{start}_end_{end}.png")
+            #     plt.close()
+            #
+            #     plt.figure(figsize=(12, 6))
+            #     plt.hlines(true_notes, xmin, xmax, linewidth=8)
+            #     plt.savefig(f"true_id_{song_id}_start_{start}_end_{end}.png")
+            #     plt.close()
 
-    #         if window_filtered.shape[0] == 0:
-    #             # print('silence??')
-    #             # if silence, then all instruments play note == 0
-    #             #transcript[i, 0] = 1
-    #             transcript[i, :,  0] = 1
-    #         else:
-    #             # print('not silence')
-    #             # transcript[i, notes] = 1
-    #             for idx in range(window_filtered.shape[0]):
-    #                 instrument = window_filtered.index[idx]
-    #                 notes = window_filtered.iloc[idx]
-    #                 transcript[i, instrument, notes] = 1
+            if window_filtered.shape[0] == 0:
+                # print('silence??')
+                # if silence, then all instruments play note == 0
+                #transcript[i, 0] = 1
+                transcript[i, :,  0] = 1
+            else:
+                # print('not silence')
+                # transcript[i, notes] = 1
+                for idx in range(window_filtered.shape[0]):
+                    instrument = window_filtered.index[idx]
+                    notes = window_filtered.iloc[idx]
+                    transcript[i, instrument, notes] = 1
 
-    #     print('window size', self.sizeWindow, end-transcript_start)
-    #     assert self.sizeWindow == end - transcript_start
+        print('window size', self.sizeWindow, end-transcript_start)
+        assert self.sizeWindow == end - transcript_start
 
-    #     # print('transcirpt label', transcript.shape)
-    #     return transcript
+        # print('transcirpt label', transcript.shape)
+        return transcript
 
 
 class AudioLoader(object):
