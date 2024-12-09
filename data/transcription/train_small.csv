@@ -3,3 +3,9 @@ id,sequencePath,length,composer,ensemble,composition,movement,id_cat,composer_ca
 1749,train_data/1749.wav,11141956,Schubert,Solo Piano,Piano Sonata in A minor,1. Moderato,9,9,12,46,32
 1733,train_data/1733.wav,8736183,Schubert,Solo Piano,Piano Sonata in A major,2. Andantino,4,9,12,45,70
 1734,train_data/1734.wav,5209862,Schubert,Solo Piano,Piano Sonata in A major,3. Scherzo. Allegro vivace,5,9,12,45,150
+2322,train_data/2322.wav,10335713,Beethoven,Solo Piano,Piano Sonata No 23 in F minor,1. Allegro assai,178,1,12,31,8
+2247,train_data/2247.wav,1299854,Bach,Solo Piano,"WTK I, No. 9: Prelude and Fugue in E major",2. Fugue,149,0,12,117,76
+2555,train_data/2555.wav,3579403,Beethoven,Solo Piano,Piano Sonata No 30 in E major,1. Vivace ma non troppo / Adagio espresivo,286,1,12,38,36
+2392,train_data/2392.wav,7001235,Beethoven,Solo Piano,Piano Sonata No 17 in D minor,2. Adagio,213,1,12,22,38
+2390,train_data/2390.wav,6273568,Beethoven,Solo Piano,Piano Sonata No 17 in D minor,3. Allegretto,211,1,12,22,110
+2391,train_data/2391.wav,7574257,Beethoven,Solo Piano,Piano Sonata No 17 in D minor,1. Largo - Allegro,212,1,12,22,28
