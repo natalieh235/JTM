@@ -708,5 +708,7 @@ class TranscriptionCriterion(BaseCriterion):
         weight = torch.empty(self.outputSize)
         weight[:] = (label == 0).sum() / label.sum()
         loss = nn.BCEWithLogitsLoss(pos_weight=weight.cuda())(predictions, label)
+
+
         accuracy = torch.sum(predsIndex == label).float().view(1, -1) / (batchSize * label.shape[1])
         return loss.view(1, -1), accuracy, predsIndex

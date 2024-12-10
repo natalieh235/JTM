@@ -137,9 +137,12 @@ def testModel(testLoader, cpcModel, cpcCriterion, useGPU):
     predictions = []
     targets = []
 
+
     with torch.no_grad():
         for step, fulldata in enumerate(testLoader):
-            batchData, label = fulldata
+            print('=========== step =========', step)
+            batchData, label, s_ids = fulldata
+            # print('song id', song_ids)
             n_examples += batchData.size(0)
 
             if useGPU:
@@ -151,8 +154,27 @@ def testModel(testLoader, cpcModel, cpcCriterion, useGPU):
 
             allLosses, allAcc, preds = cpcCriterion(c_feature, encoded_data, label)
 
-            predictions += preds.tolist()
+            # window, instrument, note
+            
+            # print(preds.shape, label.shape)
+            reshaped_preds = preds.reshape(label.shape)
+            # print(reshaped_preds.shape)
+
+            # preds has shape (# windows, 1 instrument, 129 notes)
+            piano_preds = reshaped_preds[:, :, 0:1, :]
+            label = label[:, :, 0:1, :]
+
+            # print(piano_preds.shape, label.shape)
+            predictions += piano_preds.tolist()
             targets += label.tolist()
+            song_ids += s_ids.tolist()
+
+            # print('preds', len(preds_list), len(preds_list[0]))
+            # print('targets', len(label_list))
+
+            if "locLoss_test" not in logs:
+                logs["locLoss_test"] = np.zeros(allLosses.size(1))
+                logs["locAcc_test"] = np.zeros(allLosses.size(1))
 
             # Sum loss and accuracy
             logs["locLoss_test"] += (allLosses.mean(dim=0)).detach().cpu().numpy()
@@ -162,9 +184,19 @@ def testModel(testLoader, cpcModel, cpcCriterion, useGPU):
     logs["locLoss_test"] /= len(testLoader)
     logs["locAcc_test"] /= len(testLoader)
 
+    print('overall', len(predictions), len(targets), len(song_ids))
+
     # Store predictions and targets for further analysis
     logs["predictions"] = predictions
     logs["targets"] = targets
+
+    # Convert predictions and targets to tensors if they're lists
+    predictions_tensor = torch.tensor(predictions)
+    targets_tensor = torch.tensor(targets)
+    song_tensor = torch.tensor(song_ids)
+
+    # Save them to a file
+    torch.save({'predictions': predictions_tensor, 'targets': targets_tensor, 'song_ids': song_tensor}, '/content/predictions_targets_wID.pt')
 
     # Print results
     print("Test Results:")

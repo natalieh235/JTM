@@ -242,7 +242,7 @@ class AudioBatchData(Dataset):
         outData = self.data[idx:(self.sizeWindow + idx)].view(1, -1)
 
         # print('outData', outData.shape)
-    
+        song_id = None
         if self.transcript_window is not None:
             song_id = self.getCategoryLabel(idx)
 
@@ -281,7 +281,7 @@ class AudioBatchData(Dataset):
 
         # print('outdata', outData.shape)
         # print('label', label.shape)
-        return outData, label
+        return outData, label, song_id
 
     def getBaseSampler(self, samplingType, batchSize, offset):
         if samplingType == "samecategory":

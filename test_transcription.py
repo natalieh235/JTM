@@ -92,12 +92,12 @@ def main(config):
     data_dir = 'data/small_transcription'
     musicNetMetadataTranscript = pd.read_csv(f'{data_dir}/metadata_transcript_test.csv')
 
-    metadataTest = pd.read_csv(metadataPathTest)
+    metadataTest = pd.read_csv(metadataPathTest).head(10)
     metadataTest = musicNetMetadataTranscript[musicNetMetadataTranscript['id'].isin(metadataTest.id)]
 
     metadataTest.to_csv(f'{data_dir}/test_metadata_transcription_{config.labelsBy}.csv')
     print('test shape', metadataTest.shape)
-    chunk_output = 'data/small_transcription/test_chunks/'
+    chunk_output = 'data/small_transcription/test_chunks_small/'
 
     print("Loading the testing dataset")
     testDataset = AudioBatchData(rawAudioPath=rawAudioPath,
