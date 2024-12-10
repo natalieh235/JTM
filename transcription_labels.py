@@ -2,9 +2,16 @@
 import pandas as pd
 import os
 # Paths to the train and test metadata files
-train_metadata_path = "./data/transcription/musicnet_metadata_train_sorted.csv"
-test_metadata_path = "./data/transcription/musicnet_metadata_test_sorted.csv"
-output_metadata_path = "./data/musicnet_metadata.csv"
+data_dir = "./data/small_transcription"
+train_metadata_path = data_dir + "/train_small.csv"
+test_metadata_path = data_dir + "/test_small.csv"
+output_metadata_path = data_dir + "/traintest_musicnet_metadata.csv"
+
+all_metadata = data_dir + "/musicnet_metadata.csv"
+all_metadata_pd = pd.read_csv(all_metadata)
+
+piano_metadata = all_metadata_pd[all_metadata_pd['ensemble'] == "Solo Piano"]
+piano_metadata.to_csv(f'{data_dir}/piano_music_metadata.csv', index=False)
 
 
 if not os.path.exists(output_metadata_path):
@@ -22,7 +29,7 @@ if not os.path.exists(output_metadata_path):
 
 frames = []
 meta = pd.read_csv(r"./data/musicnet_metadata.csv")
-length_meta = pd.read_csv(r"./data/transcription/musicnet_metadata_train_sorted.csv")
+length_meta = pd.read_csv(train_metadata_path)
 
 # print(length_meta)
 csv_paths = "../musicnet/musicnet/train_labels"
@@ -56,4 +63,4 @@ master_df['id'] = master_df['id'].astype('category')
 # master_df['inst'] = master_df['instrument'].astype('category')
 master_df['id_cat'] = master_df['id'].cat.codes
 # master_df['instrument_cat'] = master_df['instrument'].cat.codes
-master_df.to_csv('./data/metadata_transcript_train.csv', index=False)
+master_df.to_csv(f'{data_dir}/metadata_transcript_train.csv', index=False)

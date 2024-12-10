@@ -242,15 +242,15 @@ class AudioBatchData(Dataset):
         outData = self.data[idx:(self.sizeWindow + idx)].view(1, -1)
 
         # print('outData', outData.shape)
-        
     
         if self.transcript_window is not None:
             song_id = self.getCategoryLabel(idx)
 
             save_wav = False
+            counter = 0
             if save_wav:
+                counter += 1
                 # transcription 'ad-hoc'
-                
 
                 # Convert outData to numpy array (you may need to scale it if it's not in the right range)
                 outData = outData.squeeze().cpu().numpy()
@@ -263,10 +263,17 @@ class AudioBatchData(Dataset):
 
                 # Save the audio to a WAV file
                 wav_filename = f"output_{song_id}_{idx}.wav"
+
+                print('saved wav at ', f"output_{song_id}_{idx}.wav")
                 write(wav_filename, sample_rate, outData)
 
-            label = self._musicTranscripterNat(idx, song_id)
             # print(f"Labels for song_id {song_id} at index {idx}:")
+
+            label = self._musicTranscripterNat(idx, song_id, save_wav)
+
+            if counter > 10:
+                save_wav = False
+            
             # print(label.shape)
             # print(label[:, 1, :])
         else:
@@ -319,7 +326,7 @@ class AudioBatchData(Dataset):
         return AudioLoader(self, samplerCall, nLoops, self._loadNextPack, totSize, numWorkers)
 
 
-    def _musicTranscripterNat(self, transcript_start, song_id):
+    def _musicTranscripterNat(self, transcript_start, song_id, save_wav=False):
         '''
         Provides binary target matrices denoting all instruments that play during
         each window_size_ms window in the latent representations.
@@ -366,8 +373,9 @@ class AudioBatchData(Dataset):
                     instrument = window_filtered.index[idx]
                     notes = window_filtered.iloc[idx]
                     # Mark the notes as played for the current instrument in this window
-                    # for n in notes:
-                    #     print(f'found note {n} for instru {instrument} at window {i}')
+                    if save_wav:
+                        for n in notes:
+                            print(f'found note {n} for instru {instrument} at window {i}')
                     transcript[i, instrument, notes] = 1
 
         # pool_factor = self.transcript_window // 10  # Number of 10 ms latent vectors in a 40 ms window

@@ -1,0 +1,58 @@
+id,sequencePath,length,composer,ensemble,composition,movement,id_cat,composer_cat,ensemble_cat,composition_cat,movement_cat
+2343,train_data/2343.wav,5326054,Beethoven,Solo Piano,Piano Sonata No 14 in C-sharp minor,1. Adagio sostenuto,186,1,12,19,2
+2240,train_data/2240.wav,1481248,Bach,Solo Piano,"WTK I, No. 17: Prelude and Fugue in A-flat major",1. Prelude,144,0,12,102,34
+2212,train_data/2212.wav,2768562,Bach,Solo Piano,"WTK I, No. 12: Prelude and Fugue in F minor",1. Prelude,122,0,12,97,34
+2215,train_data/2215.wav,1862845,Bach,Solo Piano,"WTK I, No. 1: Prelude and Fugue in C major",2. Fugue,125,0,12,105,76
+2214,train_data/2214.wav,1717395,Bach,Solo Piano,"WTK I, No. 2: Prelude and Fugue in C minor",1. Prelude,124,0,12,110,34
+2210,train_data/2210.wav,2853408,Bach,Solo Piano,"WTK I, No. 4: Prelude and Fugue in C-sharp minor",1. Prelude,120,0,12,112,34
+2213,train_data/2213.wav,1855739,Bach,Solo Piano,"WTK I, No. 2: Prelude and Fugue in C minor",2. Fugue,123,0,12,110,76
+2211,train_data/2211.wav,3795488,Bach,Solo Piano,"WTK I, No. 12: Prelude and Fugue in F minor",2. Fugue,121,0,12,97,76
+1749,train_data/1749.wav,11141956,Schubert,Solo Piano,Piano Sonata in A minor,1. Moderato,9,9,12,46,32
+2359,train_data/2359.wav,4876330,Beethoven,Solo Piano,Piano Sonata No 15 in D major,4. Rondo: Allegro ma non troppo,193,1,12,20,183
+2358,train_data/2358.wav,2206825,Beethoven,Solo Piano,Piano Sonata No 15 in D major,3. Scherzo: Allegro vivace,192,1,12,20,155
+2230,train_data/2230.wav,1353352,Bach,Solo Piano,"WTK I, No. 20: Prelude and Fugue in A minor",1. Prelude,137,0,12,106,34
+2231,train_data/2231.wav,1850306,Bach,Solo Piano,"WTK I, No. 21: Prelude and Fugue in B-flat major",2. Fugue,138,0,12,107,76
+2406,train_data/2406.wav,9792784,Beethoven,Solo Piano,Piano Sonata No 20 in A-flat major,3. Adagio ma non troppo,220,1,12,26,106
+2350,train_data/2350.wav,4419919,Beethoven,Solo Piano,Piano Sonata No 14 in C-sharp minor,1. Adagio sostenuto,190,1,12,19,2
+2232,train_data/2232.wav,1257222,Bach,Solo Piano,"WTK I, No. 21: Prelude and Fugue in B-flat major",1. Prelude,139,0,12,107,34
+2514,train_data/2514.wav,6495086,Beethoven,Solo Piano,Piano Sonata No 2 in A major,2. Largo appassionato,269,1,12,25,83
+2510,train_data/2510.wav,7233620,Beethoven,Solo Piano,Piano Sonata No 2 in A major,2. Largo appassionato,267,1,12,25,83
+2633,train_data/2633.wav,3632066,Beethoven,Solo Piano,Piano Sonata No 10 in G major,3. Scherzo: Allegro assai,326,1,12,15,154
+2488,train_data/2488.wav,7060585,Beethoven,Solo Piano,Piano Sonata No 4 in E-flat major,4. Rondo: Poco allegretto e grazioso,254,1,12,39,186
+2632,train_data/2632.wav,5470250,Beethoven,Solo Piano,Piano Sonata No 10 in G major,2. Andante,325,1,12,15,61
+2582,train_data/2582.wav,6375550,Beethoven,Solo Piano,Piano Sonata No 22 in F major,2. Allegretto - Piu allegro,302,1,12,30,52
+2345,train_data/2345.wav,7088170,Beethoven,Solo Piano,Piano Sonata No 14 in C-sharp minor,3. Presto agitato,187,1,12,19,139
+2228,train_data/2228.wav,1569437,Bach,Solo Piano,"WTK I, No. 6: Prelude and Fugue in D minor",1. Prelude,135,0,12,114,34
+2227,train_data/2227.wav,2070988,Bach,Solo Piano,"WTK I, No. 6: Prelude and Fugue in D minor",2. Fugue,134,0,12,114,76
+2224,train_data/2224.wav,1740800,Bach,Solo Piano,"WTK I, No. 7: Prelude and Fugue in E-flat major",2. Fugue,132,0,12,115,76
+2530,train_data/2530.wav,8992810,Beethoven,Solo Piano,Piano Sonata No 20 in C minor,1. Maestoso - Allegro con brio ed appassionato,277,1,12,27,30
+2225,train_data/2225.wav,3418907,Bach,Solo Piano,"WTK I, No. 7: Prelude and Fugue in E-flat major",1. Prelude,133,0,12,115,34
+2388,train_data/2388.wav,7578854,Beethoven,Solo Piano,Piano Sonata No 17 in D minor,1. Largo - Allegro,209,1,12,22,28
+1758,train_data/1758.wav,7494427,Schubert,Solo Piano,Piano Sonata in C minor,2. Adagio,16,9,12,47,38
+1756,train_data/1756.wav,5943798,Schubert,Solo Piano,Piano Sonata in A minor,3. Allegro vivace,14,9,12,46,115
+1757,train_data/1757.wav,11369744,Schubert,Solo Piano,Piano Sonata in C minor,1. Allegro,15,9,12,47,6
+1752,train_data/1752.wav,5803364,Schubert,Solo Piano,Piano Sonata in A minor,4. Rondo. Allegro vivace,12,9,12,46,181
+1755,train_data/1755.wav,3676787,Schubert,Solo Piano,Piano Sonata in A minor,2. Andante,13,9,12,46,61
+2478,train_data/2478.wav,5107880,Beethoven,Solo Piano,Piano Sonata No 3 in C major,4. Allegro assai,247,1,12,37,162
+1751,train_data/1751.wav,7610619,Schubert,Solo Piano,Piano Sonata in A minor,3. Scherzo. Allegro vivace - Trio. Un poco piu lento,11,9,12,46,151
+1750,train_data/1750.wav,12546717,Schubert,Solo Piano,Piano Sonata in A minor,2. Andante poco mosso,10,9,12,46,66
+2436,train_data/2436.wav,10950113,Beethoven,Solo Piano,Piano Sonata No 21 in C major,1. Allegro con brio,233,1,12,29,9
+2346,train_data/2346.wav,5374538,Beethoven,Solo Piano,Piano Sonata No 14 in C-sharp minor,1. Adagio sostenuto,188,1,12,19,2
+2238,train_data/2238.wav,960053,Bach,Solo Piano,"WTK I, No. 23: Prelude and Fugue in B major",1. Prelude,142,0,12,109,34
+2533,train_data/2533.wav,17087426,Beethoven,Solo Piano,Piano Sonata No 20 in C minor,2. Arietta: Adagio,280,1,12,27,71
+2239,train_data/2239.wav,1920523,Bach,Solo Piano,"WTK I, No. 17: Prelude and Fugue in A-flat major",2. Fugue,143,0,12,102,76
+2234,train_data/2234.wav,1024836,Bach,Solo Piano,"WTK I, No. 11: Prelude and Fugue in F major",1. Prelude,140,0,12,96,34
+2237,train_data/2237.wav,1747070,Bach,Solo Piano,"WTK I, No. 23: Prelude and Fugue in B major",2. Fugue,141,0,12,109,76
+2371,train_data/2371.wav,3284324,Beethoven,Solo Piano,Piano Sonata No 9 in E major,2. Allegretto,198,1,12,44,51
+1768,train_data/1768.wav,4653976,Schubert,Solo Piano,Piano Sonata in A major,2. Andante,23,9,12,45,61
+1763,train_data/1763.wav,9605120,Schubert,Solo Piano,4 Impromptus,1. Impromptu in F minor,19,9,12,0,27
+1760,train_data/1760.wav,10489104,Schubert,Solo Piano,Piano Sonata in C minor,4. Allegro,18,9,12,47,161
+2532,train_data/2532.wav,8774636,Beethoven,Solo Piano,Piano Sonata No 20 in C minor,1. Maestoso - Allegro con brio ed appassionato,279,1,12,27,30
+1766,train_data/1766.wav,6837813,Schubert,Solo Piano,4 Impromptus,4. Impromptu in F minor,22,9,12,0,171
+2531,train_data/2531.wav,15873672,Beethoven,Solo Piano,Piano Sonata No 20 in C minor,2. Arietta: Adagio,278,1,12,27,71
+2209,train_data/2209.wav,2572539,Bach,Solo Piano,"WTK I, No. 4: Prelude and Fugue in C-sharp minor",2. Fugue,119,0,12,112,76
+1765,train_data/1765.wav,10825561,Schubert,Solo Piano,4 Impromptus,3. Impromptu in B-flat major,21,9,12,0,124
+1764,train_data/1764.wav,7012102,Schubert,Solo Piano,4 Impromptus,2. Impromptu in A-flat major,20,9,12,0,77
+2303,test_data/2303.wav,1482502,Bach,Solo Piano,"WTK I, No. 5: Prelude and Fugue in D major",1. Prelude,166,0,12,113,34
+2556,test_data/2556.wav,2423328,Beethoven,Solo Piano,Piano Sonata No 30 in E major,2. Prestissimo,287,1,12,38,91
+1759,test_data/1759.wav,3114632,Schubert,Solo Piano,Piano Sonata in C minor,3. Menuetto and Trio,17,9,12,47,129

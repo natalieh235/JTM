@@ -1,0 +1,100 @@
+id,sequencePath,length,composer,ensemble,composition,movement,id_cat,composer_cat,ensemble_cat,composition_cat,movement_cat
+2302,train_data/2302.wav,1733277,Bach,Solo Piano,"WTK I, No. 5: Prelude and Fugue in D major",2. Fugue,165,0,12,113,76
+2476,train_data/2476.wav,7590975,Beethoven,Solo Piano,Piano Sonata No 3 in C major,2. Adagio,245,1,12,37,38
+2528,train_data/2528.wav,7419612,Beethoven,Solo Piano,Piano Sonata No 5 in C minor,2. Adagio molto,275,1,12,40,49
+2542,train_data/2542.wav,10415961,Beethoven,Solo Piano,Piano Sonata No 28 in A major,3. Langsam und sehnsuchtsvoll,284,1,12,35,125
+1775,train_data/1775.wav,9251527,Schubert,Solo Piano,Piano Sonata in D major,1. Allegro vivace,27,9,12,48,19
+2512,train_data/2512.wav,6776373,Beethoven,Solo Piano,Piano Sonata No 2 in A major,4. Rondo: Grazioso,268,1,12,25,184
+2348,train_data/2348.wav,7899429,Beethoven,Solo Piano,Piano Sonata No 14 in C-sharp minor,3. Presto agitato,189,1,12,19,139
+2322,train_data/2322.wav,10335713,Beethoven,Solo Piano,Piano Sonata No 23 in F minor,1. Allegro assai,178,1,12,31,8
+1772,train_data/1772.wav,6679406,Schubert,Solo Piano,Piano Sonata in D-flat major,2. Andante molto,25,9,12,49,65
+2325,train_data/2325.wav,8821447,Beethoven,Solo Piano,Piano Sonata No 23 in F minor,1. Allegro assai,179,1,12,31,8
+1777,train_data/1777.wav,10071981,Schubert,Solo Piano,Piano Sonata in D major,3. Scherzo. Allegro vivace,29,9,12,48,150
+1776,train_data/1776.wav,11617594,Schubert,Solo Piano,Piano Sonata in D major,2. Con moto,28,9,12,48,73
+1771,train_data/1771.wav,10357865,Schubert,Solo Piano,Piano Sonata in D-flat major,1. Allegro moderato,24,9,12,49,14
+2486,train_data/2486.wav,7170508,Beethoven,Solo Piano,Piano Sonata No 4 in E-flat major,"2. Largo, con gran espressione",252,1,12,39,85
+2529,train_data/2529.wav,4408216,Beethoven,Solo Piano,Piano Sonata No 5 in C minor,3. Finale: Prestissimo,276,1,12,40,122
+2487,train_data/2487.wav,5435142,Beethoven,Solo Piano,Piano Sonata No 4 in E-flat major,3. Allegro,253,1,12,39,112
+2509,train_data/2509.wav,7749800,Beethoven,Solo Piano,Piano Sonata No 2 in A major,1. Allegro vivace,266,1,12,25,19
+2247,train_data/2247.wav,1299854,Bach,Solo Piano,"WTK I, No. 9: Prelude and Fugue in E major",2. Fugue,149,0,12,117,76
+2357,train_data/2357.wav,5722698,Beethoven,Solo Piano,Piano Sonata No 15 in D major,2. Andante,191,1,12,20,61
+2555,train_data/2555.wav,3579403,Beethoven,Solo Piano,Piano Sonata No 30 in E major,1. Vivace ma non troppo / Adagio espresivo,286,1,12,38,36
+2550,train_data/2550.wav,2884755,Beethoven,Solo Piano,Piano Sonata No 24 in F-sharp major,2. Allegro vivace,285,1,12,32,59
+2491,train_data/2491.wav,5297215,Beethoven,Solo Piano,Piano Sonata No 4 in E-flat major,3. Allegro,256,1,12,39,112
+2392,train_data/2392.wav,7001235,Beethoven,Solo Piano,Piano Sonata No 17 in D minor,2. Adagio,213,1,12,22,38
+2411,train_data/2411.wav,2065137,Beethoven,Solo Piano,Piano Sonata No 13 in E-flat major,2. Allegro molto e vivace,222,1,12,18,58
+2393,train_data/2393.wav,6130626,Beethoven,Solo Piano,Piano Sonata No 17 in D minor,3. Allegretto,214,1,12,22,110
+2390,train_data/2390.wav,6273568,Beethoven,Solo Piano,Piano Sonata No 17 in D minor,3. Allegretto,211,1,12,22,110
+2310,train_data/2310.wav,883984,Bach,Solo Piano,"WTK I, No. 15: Prelude and Fugue in G major",1. Prelude,171,0,12,100,34
+2527,train_data/2527.wav,6177855,Beethoven,Solo Piano,Piano Sonata No 5 in C minor,1. Allegro molto e con brio,274,1,12,40,16
+2477,train_data/2477.wav,3533845,Beethoven,Solo Piano,Piano Sonata No 3 in C major,3. Scherzo: Allegro,246,1,12,37,152
+2492,train_data/2492.wav,7691285,Beethoven,Solo Piano,Piano Sonata No 4 in E-flat major,4. Rondo: Poco allegretto e grazioso,257,1,12,39,186
+2537,train_data/2537.wav,4590864,Beethoven,Solo Piano,Piano Sonata No 20 in G major,1. Allegro ma non troppo,281,1,12,28,12
+2607,train_data/2607.wav,10783765,Beethoven,Solo Piano,Piano Sonata No 16 in G major,2. Adagio grazioso,312,1,12,21,47
+2443,train_data/2443.wav,16562051,Beethoven,Solo Piano,Piano Sonata No 29 in B-flat major,3. Adagio sostenuto,236,1,12,36,109
+2540,train_data/2540.wav,4216373,Beethoven,Solo Piano,Piano Sonata No 28 in A major,1. Etwas lebhaft und mit der innigsten Empfindung,283,1,12,35,26
+2364,train_data/2364.wav,4751778,Beethoven,Solo Piano,Piano Sonata No 15 in D major,4. Rondo: Allegro ma non troppo,194,1,12,20,183
+2308,train_data/2308.wav,1949362,Bach,Solo Piano,"WTK I, No. 18: Prelude and Fugue in G-sharp minor",1. Prelude,170,0,12,103,34
+2557,train_data/2557.wav,12196049,Beethoven,Solo Piano,Piano Sonata No 30 in E major,"3. Gesangvoll, mit innigster Empfindung",288,1,12,38,123
+1773,train_data/1773.wav,4918126,Schubert,Solo Piano,Piano Sonata in D-flat major,3. Menuetto. Allegretto,26,9,12,49,131
+2300,train_data/2300.wav,3810952,Bach,Solo Piano,"WTK I, No. 8: Prelude and Fugue in E-flat minor",1. Prelude,164,0,12,116,34
+2410,train_data/2410.wav,5015511,Beethoven,Solo Piano,Piano Sonata No 13 in E-flat major,1. Andante - Allegro - Andante,221,1,12,18,23
+2490,train_data/2490.wav,8306939,Beethoven,Solo Piano,Piano Sonata No 4 in E-flat major,"2. Largo, con gran espressione",255,1,12,39,85
+2304,train_data/2304.wav,3141800,Bach,Solo Piano,"WTK I, No. 14: Prelude and Fugue in F-sharp minor",2. Fugue,167,0,12,99,76
+2305,train_data/2305.wav,1042391,Bach,Solo Piano,"WTK I, No. 14: Prelude and Fugue in F-sharp minor",1. Prelude,168,0,12,99,34
+2538,train_data/2538.wav,3394665,Beethoven,Solo Piano,Piano Sonata No 20 in G major,2. Tempo di Menuetto,282,1,12,28,101
+2307,train_data/2307.wav,2195122,Bach,Solo Piano,"WTK I, No. 18: Prelude and Fugue in G-sharp minor",2. Fugue,169,0,12,103,76
+2389,train_data/2389.wav,7194750,Beethoven,Solo Piano,Piano Sonata No 17 in D minor,2. Adagio,210,1,12,22,38
+2442,train_data/2442.wav,2800745,Beethoven,Solo Piano,Piano Sonata No 29 in B-flat major,2. Scherzo: Assai vivace,235,1,12,36,100
+2603,train_data/2603.wav,6691945,Beethoven,Solo Piano,Piano Sonata No 26 in E-flat major,1. Das Lebewohl,311,1,12,33,25
+2608,train_data/2608.wav,6248490,Beethoven,Solo Piano,Piano Sonata No 16 in G major,"3. Rondo, allegretto - presto",313,1,12,21,145
+2444,train_data/2444.wav,12330632,Beethoven,Solo Piano,Piano Sonata No 29 in B-flat major,4. Introduzione: Largo...Allegro - Fuga: Allegro risoluto,237,1,12,36,172
+2441,train_data/2441.wav,12718498,Beethoven,Solo Piano,Piano Sonata No 29 in B-flat major,1. Allegro,234,1,12,36,6
+2201,train_data/2201.wav,2148311,Bach,Solo Piano,"WTK I, No. 16: Prelude and Fugue in G minor",1. Prelude,113,0,12,101,34
+2391,train_data/2391.wav,7574257,Beethoven,Solo Piano,Piano Sonata No 17 in D minor,1. Largo - Allegro,212,1,12,22,28
+2516,train_data/2516.wav,6206694,Beethoven,Solo Piano,Piano Sonata No 2 in A major,4. Rondo: Grazioso,270,1,12,25,184
+2229,train_data/2229.wav,3913352,Bach,Solo Piano,"WTK I, No. 20: Prelude and Fugue in A minor",2. Fugue,136,0,12,106,76
+2576,train_data/2576.wav,4475507,Beethoven,Solo Piano,Piano Sonata No 8 in C minor,3. Rondo: Allegro,300,1,12,43,146
+2404,train_data/2404.wav,6385999,Beethoven,Solo Piano,Piano Sonata No 20 in A-flat major,1. Moderato cantabile molto espressivo,218,1,12,26,33
+2575,train_data/2575.wav,4862120,Beethoven,Solo Piano,Piano Sonata No 8 in C minor,2. Adagio cantabile,299,1,12,43,41
+2677,train_data/2677.wav,7124115,Beethoven,Solo Piano,Piano Sonata No 9 in E major,1. Allegro,328,1,12,44,6
+2374,train_data/2374.wav,3464464,Beethoven,Solo Piano,Piano Sonata No 19 in G minor,2. Rondo: Allegro,201,1,12,24,94
+2678,train_data/2678.wav,7557956,Beethoven,Solo Piano,Piano Sonata No 10 in G major,1. Allegro,329,1,12,15,6
+2373,train_data/2373.wav,5097849,Beethoven,Solo Piano,Piano Sonata No 19 in G minor,1. Andante,200,1,12,24,22
+2372,train_data/2372.wav,3657143,Beethoven,Solo Piano,Piano Sonata No 9 in E major,3. Rondo - Allegro comodo,199,1,12,44,142
+2590,train_data/2590.wav,6251834,Beethoven,Solo Piano,Piano Sonata No 12 in A-flat major,3. Maestoso andante,305,1,12,17,127
+2611,train_data/2611.wav,9012036,Beethoven,Solo Piano,Piano Sonata No 7 in D major,2. Largo e mesto,314,1,12,42,84
+2591,train_data/2591.wav,2871798,Beethoven,Solo Piano,Piano Sonata No 12 in A-flat major,4. Allegro,306,1,12,17,161
+2593,train_data/2593.wav,8206211,Beethoven,Solo Piano,Piano Sonata No 18 in E-flat major,1. Allegro,307,1,12,23,6
+2595,train_data/2595.wav,4923142,Beethoven,Solo Piano,Piano Sonata No 18 in E-flat major,3. Menuetto. Moderato e grazioso,309,1,12,23,133
+2614,train_data/2614.wav,10162678,Beethoven,Solo Piano,Piano Sonata No 7 in D major,2. Largo e mesto,315,1,12,42,84
+2594,train_data/2594.wav,5109134,Beethoven,Solo Piano,Piano Sonata No 18 in E-flat major,2. Scherzo: Allegretto vivace,308,1,12,23,98
+2596,train_data/2596.wav,5212787,Beethoven,Solo Piano,Piano Sonata No 18 in E-flat major,4. Presto,310,1,12,23,177
+2292,train_data/2292.wav,1461186,Bach,Solo Piano,"WTK I, No. 19: Prelude and Fugue in A major",1. Prelude,157,0,12,104,34
+2473,train_data/2473.wav,5364507,Beethoven,Solo Piano,Piano Sonata No 3 in C major,4. Allegro assai,244,1,12,37,162
+2619,train_data/2619.wav,3815968,Beethoven,Solo Piano,Piano Sonata No 6 in F major,2. Allegretto,317,1,12,41,51
+2472,train_data/2472.wav,3446492,Beethoven,Solo Piano,Piano Sonata No 3 in C major,3. Scherzo: Allegro,243,1,12,37,152
+2200,train_data/2200.wav,1816451,Bach,Solo Piano,"WTK I, No. 16: Prelude and Fugue in G minor",2. Fugue,112,0,12,101,76
+1734,train_data/1734.wav,5209862,Schubert,Solo Piano,Piano Sonata in A major,3. Scherzo. Allegro vivace,5,9,12,45,150
+2568,train_data/2568.wav,7649489,Beethoven,Solo Piano,Piano Sonata No 27 in E minor,2. Nicht zu geschwind und sehr singbar vorgetragen,294,1,12,34,90
+2196,train_data/2196.wav,1207485,Bach,Solo Piano,"WTK I, No. 3: Prelude and Fugue in C-sharp major",1. Prelude,110,0,12,111,34
+2194,train_data/2194.wav,1601620,Bach,Solo Piano,"WTK I, No. 13: Prelude and Fugue in F-sharp major",1. Prelude,108,0,12,98,34
+2198,train_data/2198.wav,3166877,Bach,Solo Piano,"WTK I, No. 22: Prelude and Fugue in B-flat minor",2. Fugue,111,0,12,108,76
+2195,train_data/2195.wav,2481842,Bach,Solo Piano,"WTK I, No. 3: Prelude and Fugue in C-sharp major",2. Fugue,109,0,12,111,76
+1735,train_data/1735.wav,11438707,Schubert,Solo Piano,Piano Sonata in A major,4. Rondo. Allegretto,6,9,12,45,179
+2564,train_data/2564.wav,8862825,Beethoven,Solo Piano,Piano Sonata No 11 in B-flat major,2. Adagio con molto espressione,291,1,12,16,45
+2567,train_data/2567.wav,6194574,Beethoven,Solo Piano,Piano Sonata No 27 in E minor,1. Mit Lebhaftigkeit und durchaus mit Empfindung und Ausdruck,293,1,12,34,31
+2208,train_data/2208.wav,1932644,Bach,Solo Piano,"WTK I, No. 10: Prelude and Fugue in E minor",1. Prelude,118,0,12,95,34
+2207,train_data/2207.wav,1434018,Bach,Solo Piano,"WTK I, No. 10: Prelude and Fugue in E minor",2. Fugue,117,0,12,95,76
+2471,train_data/2471.wav,7256608,Beethoven,Solo Piano,Piano Sonata No 3 in C major,2. Adagio,242,1,12,37,38
+1733,train_data/1733.wav,8736183,Schubert,Solo Piano,Piano Sonata in A major,2. Andantino,4,9,12,45,70
+2566,train_data/2566.wav,6484219,Beethoven,Solo Piano,Piano Sonata No 11 in B-flat major,4. Rondo: Allegretto,292,1,12,16,182
+2248,train_data/2248.wav,1674345,Bach,Solo Piano,"WTK I, No. 9: Prelude and Fugue in E major",1. Prelude,150,0,12,117,34
+2405,train_data/2405.wav,2207661,Beethoven,Solo Piano,Piano Sonata No 20 in A-flat major,2. Allegro molto,219,1,12,26,57
+2581,train_data/2581.wav,5531690,Beethoven,Solo Piano,Piano Sonata No 22 in F major,1. tempo d un menuetto,301,1,12,30,37
+2620,train_data/2620.wav,2557911,Beethoven,Solo Piano,Piano Sonata No 6 in F major,3. Presto,318,1,12,41,138
+2423,train_data/2423.wav,4763481,Beethoven,Solo Piano,Piano Sonata No 1 in F minor,2. Adagio,228,1,12,14,38
+2588,train_data/2588.wav,8365872,Beethoven,Solo Piano,Piano Sonata No 12 in A-flat major,1. Andante con variazioni,304,1,12,17,24
+2422,train_data/2422.wav,3864869,Beethoven,Solo Piano,Piano Sonata No 1 in F minor,1. Allegro,227,1,12,14,6
+2424,train_data/2424.wav,3244200,Beethoven,Solo Piano,Piano Sonata No 1 in F minor,3. Menuetto,229,1,12,14,128
+2618,train_data/2618.wav,5826769,Beethoven,Solo Piano,Piano Sonata No 6 in F major,1. Allegro,316,1,12,41,6

@@ -567,7 +567,21 @@ def loadModel(pathCheckpoints, locArgs, loadStateDict=True):
         if loadStateDict:
             print(f"Loading the state dict at {path}")
             state_dict = torch.load(path, 'cpu')
+
+            other_state_dict = torch.load('./logs/criterion/checkpoint_0.pt', 'cpu')
+
+            # print('keys', state_dict.keys())
+            # print(state_dict['gEncoder'])
+            # for key in state_dict['gEncoder']:
+            #     print('key', key)
+            #     print(torch.equal(state_dict['gEncoder'][key], other_state_dict['gEncoder'][key]))
+
+            print(state_dict['cpcCriterion'])
+            # (['gEncoder', 'cpcCriterion', 'optimizer', 'best'])
+            print(torch.equal(state_dict['gEncoder'], other_state_dict['gEncoder']))
             m_.load_state_dict(state_dict["gEncoder"], strict=False)
+
+            # print('state dict', state_dict)
 
         hiddenGar += locArgs.hiddenGar
         hiddenEncoder += locArgs.hiddenEncoder

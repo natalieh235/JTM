@@ -1,0 +1,8 @@
+id,sequencePath,length,composer,ensemble,composition,movement,id_cat,composer_cat,ensemble_cat,composition_cat,movement_cat
+1735,train_data/1735.wav,11438707,Schubert,Solo Piano,Piano Sonata in A major,4. Rondo. Allegretto,6,9,12,45,179
+1749,train_data/1749.wav,11141956,Schubert,Solo Piano,Piano Sonata in A minor,1. Moderato,9,9,12,46,32
+1755,train_data/1755.wav,3676787,Schubert,Solo Piano,Piano Sonata in A minor,2. Andante,13,9,12,46,61
+1752,train_data/1752.wav,5803364,Schubert,Solo Piano,Piano Sonata in A minor,4. Rondo. Allegro vivace,12,9,12,46,181
+1756,train_data/1756.wav,5943798,Schubert,Solo Piano,Piano Sonata in A minor,3. Allegro vivace,14,9,12,46,115
+1750,train_data/1750.wav,12546717,Schubert,Solo Piano,Piano Sonata in A minor,2. Andante poco mosso,10,9,12,46,66
+1751,train_data/1751.wav,7610619,Schubert,Solo Piano,Piano Sonata in A minor,3. Scherzo. Allegro vivace - Trio. Un poco piu lento,11,9,12,46,151

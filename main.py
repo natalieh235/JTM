@@ -154,9 +154,11 @@ def main(config):
 
     useGPU = torch.cuda.is_available()
 
-    metadata_dir = f'data/transcription/musicnet_metadata_train_transcription_{config.labelsBy}_trainsplit.csv' if \
+    data_dir = "data/small_transcription"
+
+    metadata_dir = f'{data_dir}/musicnet_metadata_train_transcription_{config.labelsBy}_trainsplit.csv' if \
                            config.transcriptionWindow is not None \
-                           else f'data/musicnet_metadata_train_{config.labelsBy}_trainsplit.csv'
+                           else f'{data_dir}/musicnet_metadata_train_{config.labelsBy}_trainsplit.csv'
     print('metadata_dir', metadata_dir)
     print('metadata train', metadataPathTrain)
     # create the split
@@ -184,32 +186,32 @@ def main(config):
                                                           stratify=musicNetMetadataTrain[config.labelsBy])
 
         if config.transcriptionWindow is not None:
-           musicNetMetadataTranscript = pd.read_csv('data/metadata_transcript_train.csv')
+           musicNetMetadataTranscript = pd.read_csv(f'{data_dir}/metadata_transcript_train.csv')
 
            print(metadataVal['id'].unique(), metadataVal[metadataVal['ensemble'] == 'Solo Piano'])
            metadataTrain = musicNetMetadataTranscript[musicNetMetadataTranscript['id'].isin(metadataTrain.id)]
            metadataVal = musicNetMetadataTranscript[musicNetMetadataTranscript['id'].isin(metadataVal.id)]
 
            print('hmmm', metadataVal.shape, metadataVal)
-           metadataTrain.to_csv(f'data/transcription/musicnet_metadata_train_transcription_{config.labelsBy}_trainsplit.csv')
-           metadataVal.to_csv(f'data/transcription/musicnet_metadata_train_transcription_{config.labelsBy}_valsplit.csv')
+           metadataTrain.to_csv(f'{data_dir}/musicnet_metadata_train_transcription_{config.labelsBy}_trainsplit.csv')
+           metadataVal.to_csv(f'{data_dir}/musicnet_metadata_train_transcription_{config.labelsBy}_valsplit.csv')
         else:
-           metadataTrain.to_csv(f'data/musicnet_metadata_train_{config.labelsBy}_trainsplit.csv')
-           metadataVal.to_csv(f'data/musicnet_metadata_train_{config.labelsBy}_valsplit.csv')
+           metadataTrain.to_csv(f'{data_dir}/musicnet_metadata_train_{config.labelsBy}_trainsplit.csv')
+           metadataVal.to_csv(f'{data_dir}/musicnet_metadata_train_{config.labelsBy}_valsplit.csv')
     else:
         if config.transcriptionWindow is not None:
-           metadataTrain = pd.read_csv(f'data/transcription/musicnet_metadata_train_transcription_{config.labelsBy}_trainsplit.csv')
-           metadataVal = pd.read_csv(f'data/transcription/musicnet_metadata_train_transcription_{config.labelsBy}_valsplit.csv')
+           metadataTrain = pd.read_csv(f'{data_dir}/musicnet_metadata_train_transcription_{config.labelsBy}_trainsplit.csv')
+           metadataVal = pd.read_csv(f'{data_dir}/musicnet_metadata_train_transcription_{config.labelsBy}_valsplit.csv')
         else:
-           metadataTrain = pd.read_csv(f'data/musicnet_metadata_train_{config.labelsBy}_trainsplit.csv')
+           metadataTrain = pd.read_csv(f'{data_dir}/musicnet_metadata_train_{config.labelsBy}_trainsplit.csv')
                                     #    , index_col = 'id', drop=False)
-           metadataVal = pd.read_csv(f'data/musicnet_metadata_train_{config.labelsBy}_valsplit.csv')
+           metadataVal = pd.read_csv(f'{data_dir}/musicnet_metadata_train_{config.labelsBy}_valsplit.csv')
         #    , index_col = 'id', drop=False)
 
     print('metadataTrain', metadataTrain.shape, metadataTrain['id'].unique())
     print('metadataVal', metadataVal.shape, metadataVal['id'].unique())
 
-    chunk_output = 'data/half_musicnet_transcription_chunks/'
+    chunk_output = 'data/small_transcription/chunks/'
     # chunk_output = "../musicnet_big/"
     print("Loading the training dataset")
     trainDataset = AudioBatchData(rawAudioPath=rawAudioPath,
@@ -251,6 +253,7 @@ def main(config):
     batchSize = config.batchSize
     cpcModel.supervised = config.supervised
 
+    print('criterion', config.loadCriterion, config.load)
     # Training criterion
     if config.load is not None and config.loadCriterion:
         cpcCriterion = loadCriterion(config.load[0], cpcModel.gEncoder.DOWNSAMPLING,

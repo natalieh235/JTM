@@ -11,8 +11,8 @@ rawAudioPath = '../musicnet/musicnet/train_data'
 rawLabelsPath= '../musicnet/musicnet/train_labels'
 # rawAudioPath = '../musicnet/train_small'
 # rawLabelsPath= '../musicnet/train_small_labels'
-metadataPathTrain = 'data/transcription/musicnet_metadata_train_sorted.csv'
-metadataPathTest = 'data/transcription/musicnet_metadata_test_sorted.csv'
+metadataPathTrain = 'data/small_transcription/train_small.csv'
+metadataPathTest = 'data/small_transcription/test_small.csv'
 
 
 
