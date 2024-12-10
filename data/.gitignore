@@ -2,6 +2,7 @@
 /musicnet_chunk/*
 /transcription_chunks/*
 /small_transcription/chunks/*
+/small_transcription/test_chunks/*
 /half_musicnet_transcription_chunks/*
 musicnet_metadata_train_ensemble_trainsplit.csv
 musicnet_metadata_train_ensemble_valsplit.csv

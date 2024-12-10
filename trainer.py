@@ -116,6 +116,61 @@ def trainStep(dataLoader,
     showLogs("Average training loss on epoch", logs)
     return logs
 
+def testModel(testLoader, cpcModel, cpcCriterion, useGPU):
+    """
+    Evaluate the CPC model and criterion on a test set.
+
+    Args:
+        testLoader: DataLoader for the test dataset.
+        cpcModel: Trained CPC model.
+        cpcCriterion: Criterion used for evaluation.
+        useGPU: Boolean indicating whether to use GPU.
+
+    Returns:
+        results: Dictionary containing average loss, accuracy, predictions, and targets.
+    """
+    cpcModel.eval()
+    cpcCriterion.eval()
+
+    logs = {}
+    n_examples = 0
+    predictions = []
+    targets = []
+
+    with torch.no_grad():
+        for step, fulldata in enumerate(testLoader):
+            batchData, label = fulldata
+            n_examples += batchData.size(0)
+
+            if useGPU:
+                batchData = batchData.cuda(non_blocking=True)
+                label = label.cuda(non_blocking=True)
+
+            # Forward pass through the CPC model
+            c_feature, encoded_data, label = cpcModel(batchData, label)
+
+            allLosses, allAcc, preds = cpcCriterion(c_feature, encoded_data, label)
+
+            predictions += preds.tolist()
+            targets += label.tolist()
+
+            # Sum loss and accuracy
+            logs["locLoss_test"] += (allLosses.mean(dim=0)).detach().cpu().numpy()
+            logs["locAcc_test"] += (allAcc.mean(dim=0)).cpu().numpy()
+
+    # Average loss and accuracy over the test set
+    logs["locLoss_test"] /= len(testLoader)
+    logs["locAcc_test"] /= len(testLoader)
+
+    # Store predictions and targets for further analysis
+    logs["predictions"] = predictions
+    logs["targets"] = targets
+
+    # Print results
+    print("Test Results:")
+    showLogs("Test loss and accuracy", logs)
+
+    return logs
 
 def valStep(dataLoader,
             cpcModel,

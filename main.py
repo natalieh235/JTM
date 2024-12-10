@@ -42,9 +42,9 @@ def getCriterion(config, downsampling, nClasses=None):
     return cpcCriterion
 
 
-def loadCriterion(pathCheckpoint, downsampling, nClasses):
-    _, _, locArgs = getCheckpointData(os.path.dirname(pathCheckpoint))
-    criterion = getCriterion(locArgs, downsampling, nClasses)
+def loadCriterion(pathCheckpoint, downsampling, nClasses, config):
+    # _, _, locArgs = getCheckpointData(os.path.dirname(pathCheckpoint))
+    criterion = getCriterion(config, downsampling, nClasses)
 
     state_dict = torch.load(pathCheckpoint, 'cpu')
 
@@ -257,7 +257,7 @@ def main(config):
     # Training criterion
     if config.load is not None and config.loadCriterion:
         cpcCriterion = loadCriterion(config.load[0], cpcModel.gEncoder.DOWNSAMPLING,
-                                     len(metadataTrain[config.labelsBy].unique()))
+                                     len(metadataTrain[config.labelsBy].unique()), config)
     else:
         cpcCriterion = getCriterion(config, cpcModel.gEncoder.DOWNSAMPLING,
                                     len(metadataTrain[config.labelsBy].unique())) # change for transcription labels

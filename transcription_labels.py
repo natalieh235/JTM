@@ -29,7 +29,7 @@ if not os.path.exists(output_metadata_path):
 
 frames = []
 meta = pd.read_csv(r"./data/musicnet_metadata.csv")
-length_meta = pd.read_csv(train_metadata_path)
+length_meta = pd.read_csv(test_metadata_path)
 
 # print(length_meta)
 csv_paths = "../musicnet/musicnet/train_labels"
@@ -63,4 +63,4 @@ master_df['id'] = master_df['id'].astype('category')
 # master_df['inst'] = master_df['instrument'].astype('category')
 master_df['id_cat'] = master_df['id'].cat.codes
 # master_df['instrument_cat'] = master_df['instrument'].cat.codes
-master_df.to_csv(f'{data_dir}/metadata_transcript_train.csv', index=False)
+master_df.to_csv(f'{data_dir}/metadata_transcript_test.csv', index=False)
