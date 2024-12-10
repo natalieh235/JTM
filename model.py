@@ -568,7 +568,7 @@ def loadModel(pathCheckpoints, locArgs, loadStateDict=True):
             print(f"Loading the state dict at {path}")
             state_dict = torch.load(path, 'cpu')
 
-            other_state_dict = torch.load('./logs/criterion/checkpoint_0.pt', 'cpu')
+            # other_state_dict = torch.load('./logs/criterion/checkpoint_0.pt', 'cpu')
 
             # print('keys', state_dict.keys())
             # print(state_dict['gEncoder'])
@@ -576,9 +576,9 @@ def loadModel(pathCheckpoints, locArgs, loadStateDict=True):
             #     print('key', key)
             #     print(torch.equal(state_dict['gEncoder'][key], other_state_dict['gEncoder'][key]))
 
-            print(state_dict['cpcCriterion'])
+            # print(state_dict['cpcCriterion'])
             # (['gEncoder', 'cpcCriterion', 'optimizer', 'best'])
-            print(torch.equal(state_dict['gEncoder'], other_state_dict['gEncoder']))
+            # print(torch.equal(state_dict['gEncoder'], other_state_dict['gEncoder']))
             m_.load_state_dict(state_dict["gEncoder"], strict=False)
 
             # print('state dict', state_dict)
@@ -673,31 +673,31 @@ class TranscriptionCriterion(BaseCriterion):
         print('OUTPUT SIZE', self.outputSize)
 
     def forward(self, x, encodedData, label):
-        print('FORWARD LABEL', x.shape, label.shape)
+        # print('FORWARD LABEL', x.shape, label.shape)
         # print('numclasses', self.numClasses)
         # get x of size (batch, 128, feat_dim) --> (N, L, C)
         x = x.detach()
 
-        print('permuted x', x.shape)
+        # print('permuted x', x.shape)
         # print('encoded shape', encodedData.shape)
         # x of size (batch, feat_dim, 128) --> (N, C, L)
         batchSize, seqSize, dimAR = x.size()
         # batchSize, dimAR, seqSize = x.size()
 
-        print('seqSize', seqSize, 'dimAR', dimAR)
+        # print('seqSize', seqSize, 'dimAR', dimAR)
 
         if self.pool is not None:
-            print('pooling')
+            # print('pooling')
             x = torch.permute(x, (0, 2, 1))
             x = self.avgPool(x)
 
-        print('after pooling x', x.shape)
-        print('label', label.shape, 'should be', self.outputSize)
+        # print('after pooling x', x.shape)
+        # print('label', label.shape, 'should be', self.outputSize)
         # 8 x 128 x 11 x 129
         label = label.contiguous().view(batchSize, self.outputSize)
         x = x.contiguous().view(batchSize, seqSize * dimAR // self.windowRatio)
 
-        print('final x shape', x.shape, 'final label shape', label.shape)
+        # print('final x shape', x.shape, 'final label shape', label.shape)
         # print('after pooling x', x.shape)
 
         predictions = self.wPrediction(x)
