@@ -4,6 +4,7 @@
 /small_transcription/chunks/*
 /small_transcription/test_chunks/*
 /small_transcription/test_chunks_small/*
+/guitar_transcription/chunks/*
 /half_musicnet_transcription_chunks/*
 musicnet_metadata_train_ensemble_trainsplit.csv
 musicnet_metadata_train_ensemble_valsplit.csv

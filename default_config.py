@@ -7,12 +7,19 @@ import argparse
 
 # rawAudioPath = '../drive/MyDrive/train_small'
 # rawLabelsPath= '../drive/MyDrive/train_small_labels'
-rawAudioPath = '../musicnet/musicnet/train_data'
-rawLabelsPath= '../musicnet/musicnet/train_labels'
+# rawAudioPath = '../musicnet/musicnet/train_data'
+# rawLabelsPath= '../musicnet/musicnet/train_labels'
+
+# guitar set
+rawAudioPath = '../guitarset/audio_mono-pickup_mix'
+rawLabelsPath= '../guitarset/annotation'
+
 # rawAudioPath = '../musicnet/train_small'
 # rawLabelsPath= '../musicnet/train_small_labels'
-metadataPathTrain = 'data/small_transcription/train_small.csv'
-metadataPathTest = 'data/small_transcription/test_small.csv'
+# metadataPathTrain = 'data/small_transcription/train_small.csv'
+# metadataPathTest = 'data/small_transcription/test_small.csv'
+metadataPathTrain = 'data/guitar_transcription/guitar_train.csv'
+metadataPathTest = 'data/guitar_transcription/guitar_test.csv'
 
 
 

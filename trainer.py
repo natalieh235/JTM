@@ -38,7 +38,7 @@ def trainStep(dataLoader,
     targets = []
 
     for step, fulldata in enumerate(dataLoader):
-        batchData, label = fulldata
+        batchData, label, _ = fulldata
         n_examples += batchData.size(0)
         if useGPU:
             batchData = batchData.cuda(non_blocking=True)
@@ -221,7 +221,7 @@ def valStep(dataLoader,
 
     for step, fulldata in enumerate(dataLoader):
 
-        batchData, label = fulldata
+        batchData, label, _ = fulldata
 
         if useGPU:
             batchData = batchData.cuda(non_blocking=True)

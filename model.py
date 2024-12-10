@@ -639,7 +639,9 @@ class TranscriptionCriterion(BaseCriterion):
                  sizeWindow,
                  downSampling,
                  numClasses=129,
-                 pool=None):
+                 numInstruments=11,
+                 pool=None,
+                 guitar=False):
         super(TranscriptionCriterion, self).__init__()
         self.pool = pool
         self.windowRatio = 1
@@ -654,10 +656,9 @@ class TranscriptionCriterion(BaseCriterion):
             self.numFeatures = int(hiddenGar * (sizeWindow // downSampling))
         print('model numfeatures', self.numFeatures)
         self.numClasses = numClasses
-
-       
-
-        self.outputSize = 11 * self.numClasses * (sizeWindow // downSampling // kernelSize)
+        self.numInstruments = numInstruments
+        self.guitar = guitar
+        self.outputSize = self.numInstruments * self.numClasses * (sizeWindow // downSampling // kernelSize)
         # self.lossCriterion = nn.BCEWithLogitsLoss(pos_weight=)
         self.wPrediction = nn.Sequential(
             nn.Linear(self.numFeatures, 100), # possibly change n_neurons?
@@ -678,9 +679,6 @@ class TranscriptionCriterion(BaseCriterion):
         # get x of size (batch, 128, feat_dim) --> (N, L, C)
         x = x.detach()
 
-        # print('permuted x', x.shape)
-        # print('encoded shape', encodedData.shape)
-        # x of size (batch, feat_dim, 128) --> (N, C, L)
         batchSize, seqSize, dimAR = x.size()
         # batchSize, dimAR, seqSize = x.size()
 

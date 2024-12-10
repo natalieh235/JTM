@@ -30,7 +30,10 @@ class AudioBatchData(Dataset):
                  CHUNK_SIZE=1e9,
                  NUM_CHUNKS_INMEM=2,
                  useGPU=False,
-                 transcript_window=160):
+                 transcript_window=160,
+                 guitar=False,
+                 numInstruments=11,
+                 numClasses=129):
         """
         Args:
             - rawAudioPath (string): path to the raw audio files
@@ -50,11 +53,15 @@ class AudioBatchData(Dataset):
         self.useGPU = useGPU
         self.transcript_window = (transcript_window)
 
+        self.numInstruments = numInstruments
+        self.numClasses = numClasses
+
         if self.transcript_window is not None:
             cols_to_sort_by = [labelsBy, 'start_time']
         else:
             cols_to_sort_by = labelsBy
 
+        self.guitar = guitar
 
         # print(metadata)
         self.sequencesData = metadata.sort_values(by=cols_to_sort_by) # big concatenated csv
@@ -133,7 +140,11 @@ class AudioBatchData(Dataset):
         # for trackId in tqdm.tqdm(self.sequencesData.id.unique()):
         for trackId in tqdm.tqdm(self.sequencesData.id.unique()):
             # downsample
-            sequence, samplingRate = librosa.load(self.rawAudioPath / (str(trackId) + '.wav'), sr=16000)
+            if self.guitar:
+                p = self.rawAudioPath / (str(trackId) + '_mix.wav')
+            else:
+                p = self.rawAudioPath / (str(trackId) + '.wav')
+            sequence, samplingRate = librosa.load(p, sr=16000)
             sequence = torch.tensor(sequence).float()
             packIds.append(trackId)
             pack.append(sequence)
@@ -199,7 +210,7 @@ class AudioBatchData(Dataset):
             # print('category label', self.categoryLabel)
             # print(f"{self.previousCategory}, {self.categoryLabel[-2]}, {self.categoryLabel[-1]}")
 
-            # print('PACKAGE SIZE', packageSize)
+            print('PACKAGE SIZE', packageSize)
             # print('package idx', packageIdx)
             self.data = torch.empty(size=(packageSize,))
 
@@ -250,8 +261,6 @@ class AudioBatchData(Dataset):
             counter = 0
             if save_wav:
                 counter += 1
-                # transcription 'ad-hoc'
-
                 # Convert outData to numpy array (you may need to scale it if it's not in the right range)
                 outData = outData.squeeze().cpu().numpy()
 
@@ -267,15 +276,12 @@ class AudioBatchData(Dataset):
                 print('saved wav at ', f"output_{song_id}_{idx}.wav")
                 write(wav_filename, sample_rate, outData)
 
-            # print(f"Labels for song_id {song_id} at index {idx}:")
+                print(f"Labels for song_id {song_id} at index {idx}:")
 
             label = self._musicTranscripterNat(idx, song_id, save_wav)
 
             if counter > 10:
                 save_wav = False
-            
-            # print(label.shape)
-            # print(label[:, 1, :])
         else:
             label = torch.tensor(self.getCategoryLabel(idx), dtype=torch.long)
 
@@ -341,7 +347,8 @@ class AudioBatchData(Dataset):
         n_windows = self.sizeWindow // transcript_window_frames
         
         # Initialize the transcript tensor to store labels for each window
-        transcript = torch.zeros(n_windows, 11, 129)  # 11 instruments, 129 possible notes
+        # transcript = torch.zeros(n_windows, 11, 129)  # 11 instruments, 129 possible notes
+        transcript = torch.zeros(n_windows, self.numInstruments, self.numClasses)
         end = 0
 
         for i in range(n_windows):
@@ -351,26 +358,38 @@ class AudioBatchData(Dataset):
             end = start + transcript_window_frames
 
             # print(f'window {i}, start: {start}, end: {end}')
+            classLabel = 'chord' if self.guitar else 'note'
 
             # Consider rows where the note occurs within the window [start, end]
-            window_considered = considered_df[
+            if not self.guitar:
+                window_considered = considered_df[
+                    (considered_df['start_time'].between(start, end)) | 
+                    (considered_df['end_time'].between(start, end)) | 
+                    ((considered_df['start_time'] < start) & (end < considered_df['end_time']))
+                ][[classLabel, 'instrument']]
+            else:
+                window_considered = considered_df[
                 (considered_df['start_time'].between(start, end)) | 
                 (considered_df['end_time'].between(start, end)) | 
                 ((considered_df['start_time'] < start) & (end < considered_df['end_time']))
-            ][['note', 'instrument']]
+                ][[classLabel]]
 
 
             # print('considered', window_considered)
             # Group by instrument and gather the unique notes played
-            window_filtered = window_considered.groupby(by='instrument')['note'].apply(lambda x: list(np.unique(x)))
+            if not self.guitar:
+                window_filtered = window_considered.groupby(by='instrument')[classLabel].apply(lambda x: list(np.unique(x)))
+            else:
+                window_filtered = window_considered[classLabel].apply(lambda x: list(np.unique(x)))
             
             # If no notes are played, mark silence (set all notes for all instruments to 0)
             if window_filtered.shape[0] == 0:
                 transcript[i, :, 0] = 1  # Silence, no notes played for any instrument
             else:
                 # Iterate over each instrument in the window and mark the corresponding notes
+                # print(window_filtered)
                 for idx in range(window_filtered.shape[0]):
-                    instrument = window_filtered.index[idx]
+                    instrument = 0 if self.guitar else window_filtered.index[idx]
                     notes = window_filtered.iloc[idx]
                     # Mark the notes as played for the current instrument in this window
                     if save_wav:
@@ -378,18 +397,6 @@ class AudioBatchData(Dataset):
                             print(f'found note {n} for instru {instrument} at window {i}')
                     transcript[i, instrument, notes] = 1
 
-        # pool_factor = self.transcript_window // 10  # Number of 10 ms latent vectors in a 40 ms window
-        # n_pooled_windows = n_windows // pool_factor  # Total number of pooled windows
-
-        # # Reshape the transcript tensor to (n_pooled_windows, pool_factor, 11, 129)
-        # # Each chunk of `pool_factor` latent vectors will be pooled into one vector
-        # transcript_reshaped = transcript.view(n_pooled_windows, pool_factor, 11, 129)
-
-        # # Apply max pooling along the `pool_factor` axis (the time dimension for 10 ms windows)
-        # transcript_pooled = transcript_reshaped.max(dim=1)[0]  # This applies max pooling along the second dimension
-
-        # Ensure that the window size matches the expected value
-        # print('assert', self.sizeWindow, end - transcript_start)
         assert self.sizeWindow == (end - transcript_start)
 
         return transcript

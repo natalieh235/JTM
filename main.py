@@ -19,7 +19,7 @@ import pandas as pd
 from sklearn.model_selection import train_test_split
 
 
-def getCriterion(config, downsampling, nClasses=None):
+def getCriterion(config, downsampling, nClasses=None, guitar=False):
     if not config.supervised:
         print('getting not supervised criterion')
         cpcCriterion = CPCUnsupersivedCriterion(nPredicts=config.nPredicts,
@@ -32,9 +32,15 @@ def getCriterion(config, downsampling, nClasses=None):
         if config.task == 'classification':
             cpcCriterion = CategoryCriterion(config.hiddenGar, config.sizeWindow, downsampling, nClasses, pool=(4, 0, 4))
         elif config.task == 'transcription':
-            cpcCriterion = TranscriptionCriterion(config.hiddenGar, config.sizeWindow, downsampling, 
-                                                #   pool=None)
-                                                pool = (config.transcriptionWindow//10, 0, config.transcriptionWindow//10))
+            if not guitar:
+                cpcCriterion = TranscriptionCriterion(config.hiddenGar, config.sizeWindow, downsampling, 
+                                                    pool = (config.transcriptionWindow//10, 0, config.transcriptionWindow//10))
+            else:
+                cpcCriterion = TranscriptionCriterion(config.hiddenGar, config.sizeWindow, downsampling, 
+                                                numClasses=421,
+                                                numInstruments=1,
+                                                pool = (config.transcriptionWindow//10, 0, config.transcriptionWindow//10),
+                                                guitar=True)
                                                 #   pool=(int(128/(config.transcriptionWindow/10)), 0, int(128/(config.transcriptionWindow/10))))
         else:
             raise NotImplementedError
@@ -42,9 +48,9 @@ def getCriterion(config, downsampling, nClasses=None):
     return cpcCriterion
 
 
-def loadCriterion(pathCheckpoint, downsampling, nClasses, config):
+def loadCriterion(pathCheckpoint, downsampling, nClasses, config, guitar=False):
     # _, _, locArgs = getCheckpointData(os.path.dirname(pathCheckpoint))
-    criterion = getCriterion(config, downsampling, nClasses)
+    criterion = getCriterion(config, downsampling, nClasses, guitar)
 
     state_dict = torch.load(pathCheckpoint, 'cpu')
 
@@ -154,11 +160,14 @@ def main(config):
 
     useGPU = torch.cuda.is_available()
 
-    data_dir = "data/small_transcription"
+    # data_dir = "data/small_transcription"
+    data_dir = "data/guitar_transcription"
+    dataset = "guitarset"
+    guitar = True
 
-    metadata_dir = f'{data_dir}/musicnet_metadata_train_transcription_{config.labelsBy}_trainsplit.csv' if \
+    metadata_dir = f'{data_dir}/{dataset}_metadata_train_transcription_{config.labelsBy}_trainsplit.csv' if \
                            config.transcriptionWindow is not None \
-                           else f'{data_dir}/musicnet_metadata_train_{config.labelsBy}_trainsplit.csv'
+                           else f'{data_dir}/{dataset}_metadata_train_{config.labelsBy}_trainsplit.csv'
     print('metadata_dir', metadata_dir)
     print('metadata train', metadataPathTrain)
     # create the split
@@ -188,30 +197,30 @@ def main(config):
         if config.transcriptionWindow is not None:
            musicNetMetadataTranscript = pd.read_csv(f'{data_dir}/metadata_transcript_train.csv')
 
-           print(metadataVal['id'].unique(), metadataVal[metadataVal['ensemble'] == 'Solo Piano'])
+        #    print(metadataVal['id'].unique(), metadataVal[metadataVal['ensemble'] == 'Solo Piano'])
            metadataTrain = musicNetMetadataTranscript[musicNetMetadataTranscript['id'].isin(metadataTrain.id)]
            metadataVal = musicNetMetadataTranscript[musicNetMetadataTranscript['id'].isin(metadataVal.id)]
 
-           print('hmmm', metadataVal.shape, metadataVal)
-           metadataTrain.to_csv(f'{data_dir}/musicnet_metadata_train_transcription_{config.labelsBy}_trainsplit.csv')
-           metadataVal.to_csv(f'{data_dir}/musicnet_metadata_train_transcription_{config.labelsBy}_valsplit.csv')
+        #    print('hmmm', metadataVal.shape, metadataVal)
+           metadataTrain.to_csv(f'{data_dir}/{dataset}_metadata_train_transcription_{config.labelsBy}_trainsplit.csv')
+           metadataVal.to_csv(f'{data_dir}/{dataset}_metadata_train_transcription_{config.labelsBy}_valsplit.csv')
         else:
-           metadataTrain.to_csv(f'{data_dir}/musicnet_metadata_train_{config.labelsBy}_trainsplit.csv')
-           metadataVal.to_csv(f'{data_dir}/musicnet_metadata_train_{config.labelsBy}_valsplit.csv')
+           metadataTrain.to_csv(f'{data_dir}/{dataset}_metadata_train_{config.labelsBy}_trainsplit.csv')
+           metadataVal.to_csv(f'{data_dir}/{dataset}_metadata_train_{config.labelsBy}_valsplit.csv')
     else:
         if config.transcriptionWindow is not None:
-           metadataTrain = pd.read_csv(f'{data_dir}/musicnet_metadata_train_transcription_{config.labelsBy}_trainsplit.csv')
-           metadataVal = pd.read_csv(f'{data_dir}/musicnet_metadata_train_transcription_{config.labelsBy}_valsplit.csv')
+           metadataTrain = pd.read_csv(f'{data_dir}/{dataset}_metadata_train_transcription_{config.labelsBy}_trainsplit.csv')
+           metadataVal = pd.read_csv(f'{data_dir}/{dataset}_metadata_train_transcription_{config.labelsBy}_valsplit.csv')
         else:
-           metadataTrain = pd.read_csv(f'{data_dir}/musicnet_metadata_train_{config.labelsBy}_trainsplit.csv')
+           metadataTrain = pd.read_csv(f'{data_dir}/{dataset}_metadata_train_{config.labelsBy}_trainsplit.csv')
                                     #    , index_col = 'id', drop=False)
-           metadataVal = pd.read_csv(f'{data_dir}/musicnet_metadata_train_{config.labelsBy}_valsplit.csv')
+           metadataVal = pd.read_csv(f'{data_dir}/{dataset}_metadata_train_{config.labelsBy}_valsplit.csv')
         #    , index_col = 'id', drop=False)
 
     print('metadataTrain', metadataTrain.shape, metadataTrain['id'].unique())
     print('metadataVal', metadataVal.shape, metadataVal['id'].unique())
 
-    chunk_output = 'data/small_transcription/chunks/'
+    chunk_output = 'data/guitar_transcription/chunks/'
     # chunk_output = "../musicnet_big/"
     print("Loading the training dataset")
     trainDataset = AudioBatchData(rawAudioPath=rawAudioPath,
@@ -222,7 +231,10 @@ def main(config):
                                   CHUNK_SIZE=config.chunkSize,
                                   NUM_CHUNKS_INMEM=config.maxChunksInMem,
                                   useGPU=useGPU,
-                                  transcript_window=config.transcriptionWindow)
+                                  transcript_window=config.transcriptionWindow,
+                                  guitar=guitar,
+                                  numInstruments=1,
+                                  numClasses=421)
     print("Training dataset loaded")
     print("dataset len: ", len(trainDataset))
 
@@ -236,7 +248,10 @@ def main(config):
                                 CHUNK_SIZE=config.chunkSize,
                                 NUM_CHUNKS_INMEM=config.maxChunksInMem,
                                 useGPU=False,
-                                transcript_window=config.transcriptionWindow)
+                                transcript_window=config.transcriptionWindow,
+                                guitar=guitar,
+                                numInstruments=1,
+                                numClasses=421)
     print("Validation dataset loaded")
     print("val len: ", len(valDataset))
 
@@ -257,10 +272,10 @@ def main(config):
     # Training criterion
     if config.load is not None and config.loadCriterion:
         cpcCriterion = loadCriterion(config.load[0], cpcModel.gEncoder.DOWNSAMPLING,
-                                     len(metadataTrain[config.labelsBy].unique()), config)
+                                     len(metadataTrain[config.labelsBy].unique()), config,guitar=guitar)
     else:
         cpcCriterion = getCriterion(config, cpcModel.gEncoder.DOWNSAMPLING,
-                                    len(metadataTrain[config.labelsBy].unique())) # change for transcription labels
+                                    len(metadataTrain[config.labelsBy].unique()),guitar=guitar) # change for transcription labels
 
     if loadOptimizer:
         stateDict = torch.load(config.load[0], 'cpu')
